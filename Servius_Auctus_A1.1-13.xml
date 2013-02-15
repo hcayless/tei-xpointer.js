@@ -11,12 +11,12 @@
       </publicationStmt>
       <sourceDesc>
         <p>Source text downloaded from Perseus (beginning at <ref
-          target="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0053%3Abook%3D1%3Acommline%3D1"
-          >line 1</ref>). The Perseus text is based on <bibl>Servius, 4th cent. (1881). Servii
+            target="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0053%3Abook%3D1%3Acommline%3D1"
+            >line 1</ref>). The Perseus text is based on <bibl>Servius, 4th cent. (1881). Servii
             Grammatici qvi fervntvr in Vergilii carmina commentarii; in aedibvs B.G.
             Tevbneri.</bibl>. The base is corrected according to <bibl>Servius, 4th cent. (1946).
-              Servianorum in Vergilii carmina commentariorum editionis Harvardianae volumen.
-              Societatis Philologicae Americanae cura et impensis.</bibl></p>
+            Servianorum in Vergilii carmina commentariorum editionis Harvardianae volumen.
+            Societatis Philologicae Americanae cura et impensis.</bibl></p>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
@@ -35,11 +35,14 @@
             bello. hac autem figura etiam in prosa utimur. sic Cicero in Verrinis <cit>
               <quote>nam sine ullo sumptu nostro coriis, tunicis frumentoque suppeditato maximos
                 exercitus nostros vestivit, aluit, armavit</quote>
-            </cit>. non nulli autem hyperbaton putant, ut sit sensus talis 'arma virumque cano,
-            genus unde Latinum Albanique patres atque altae moenia Romae', mox illa revoces 'Troiae
-            qui primus ab oris'; sic enim causa operis declaratur, cur cogentibus fatis in Latium
-            venerit. alii ideo 'arma' hoc loco proprie<pb/> dicta accipiunt, primo quod fuerint
-            victricia, secundo quod divina, tertio quod prope semper armis virum subiungit, ut <cit>
+            </cit>. non nulli autem hyperbaton putant, ut sit sensus talis <cit>
+              <quote>arma virumque cano, genus unde Latinum Albanique patres atque altae moenia
+                Romae</quote>
+            </cit>, mox illa revoces <cit>
+              <quote>Troiae qui primus ab oris</quote>
+            </cit>; sic enim causa operis declaratur, cur cogentibus fatis in Latium venerit. alii
+            ideo 'arma' hoc loco proprie<pb/> dicta accipiunt, primo quod fuerint victricia, secundo
+            quod divina, tertio quod prope semper armis virum subiungit, ut <cit>
               <quote>arma virumque ferens</quote>
             </cit> et <cit>
               <quote>arma acri facienda viro</quote>
@@ -49,14 +52,16 @@
             'multa quoque et bello passus', a generis successu 'genus unde Latinum'. <hi rend="caps"
               >virum</hi> quem non dicit, sed circumstantiis ostendit Aeneam. et bene addidit post
             'arma' 'virum', quia arma possunt et aliarum artium instrumenta dici, ut <cit>
-              <quote>Cerealiaque arma</quote>
+              <quote><bibl>177</bibl> Cerealiaque arma</quote>
             </cit>. <hi rend="caps">cano</hi> polysemus sermo est. tria enim significat: aliquando
             laudo, ut <cit>
+              <bibl>VII 698</bibl>
               <quote>regemque canebant</quote>
             </cit>; aliquando divino, ut <cit>
+              <bibl>VI 76</bibl>
               <quote>ipsa canas oro</quote>
-            </cit>; aliquando canto, ut in hoc loco. nam proprie canto significat, quia cantanda
-            sunt carmina. <hi rend="caps">Troiae</hi> Troia regio est Asiae, Ilium civitas Troiae;
+            </cit>; aliquando canto, ut hoc loco. nam proprie canto significat, quia cantanda sunt
+            carmina. <hi rend="caps">Troiae</hi> Troia regio est Asiae, Ilium civitas Troiae;
             plerumque tamen usurpant poetae et pro civitate vel regionem vel provinciam ponunt, ut
             Iuvenalis <cit>
               <quote>et flammis Asiam ferroque cadentem</quote>
@@ -71,28 +76,37 @@
             quaestionem hanc volunt ex sequentibus solvi, ut videatur ob hoc addidisse Vergilius 'ad
             Lavina litora', ne significaret Antenorem. melior tamen est superior expositio. <hi
               rend="caps">primus</hi> [ergo] non ante quem nemo, sed post quem nullus, &lt;ut&gt; <cit>
-              <quote>tuque o, cui prima furentem fundit equum magno tellus percussa tridenti et hic
-                mihi responsum primus dedit</quote>
+              <bibl>G. I 12</bibl>
+              <quote>tuque o, cui prima furentem fundit equum magno tellus percussa tridenti</quote>
+            </cit> et <cit>
+              <bibl>E. I 44</bibl>
+              <quote>hic mihi responsum primus dedit</quote>
             </cit>. vel laudative 'primus', ut <cit>
+              <bibl>VI 810</bibl>
               <quote>primam qui legibus urbem fundabit, Curibus parvis</quote>
             </cit>. <hi rend="caps">ab oris</hi> speciem pro genere; nam oras terras generaliter
             debemus accipere. sane praepositionem mutavit, nam 'ex oris' melius potuit dicere.</ab>
         </div>
         <div type="commline" n="2" org="uniform" sample="complete">
           <ab><hi rend="caps">Italiam</hi> ars quidem hoc exigit, ut nominibus provinciarum
-            praepositiones addamus, civitatum numquam. tamen plerumque perverso ordine lectum est;
-            nam ecce hoc loco detraxit provinciae praepositionem dicens 'Italiam venit' pro ad
+            praepositiones addamus, civitatum numquam. tamen plerumque hoc perverso ordine lectum
+            est; nam ecce hoc loco detraxit provinciae praepositionem dicens 'Italiam venit' pro ad
             Italiam venit. Tullius in Verrinis <cit>
               <quote>ea die Verres ad Messanam venit</quote>
             </cit> pro Messanam venit. sane sciendum est usurpari ab auctoribus, ut vel addant vel
             detrahant praepositiones; namque ait Vergilius <cit>
+              <bibl>XI 686</bibl>
               <quote>silvis te, Tyrrhene, feras agitare putasti</quote>
             </cit> pro in silvis. ut ergo illic detraxit loco<pb/> praepositionem, sic hic
             provinciae. et est figura. Italia autem pars Europae est. Italus enim rex Siculorum
             profectus de Sicilia venit ad loca, quae sunt iuxta Tiberim, et ex nomine suo appellavit
             Italiam. ibi autem habitasse Siculos ubi est Laurolavinium, manifestum est, sicut ipse
             alio loco dicit <cit>
-              <quote>Siculi veteresque Sicani et gentes venere Sicanae saepius</quote>
+              <bibl>VII 795</bibl>
+              <quote>Siculi veteresque Sicani</quote>
+            </cit> et <cit>
+              <bibl>VIII 328</bibl>
+              <quote>gentes venere Sicanae saepius</quote>
             </cit>. sane 'Italiam' i contra naturam producta est, cum sit natura brevis. <hi
               rend="caps">fato profugus</hi> 'fato' ad utrumque pertinet, et quod fugit, et quod ad
             Italiam venit. et bene addidit 'fato', ne videatur aut causa criminis patriam
