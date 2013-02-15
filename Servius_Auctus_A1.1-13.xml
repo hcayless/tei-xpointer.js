@@ -14,7 +14,9 @@
           target="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0053%3Abook%3D1%3Acommline%3D1"
           >line 1</ref>). The Perseus text is based on <bibl>Servius, 4th cent. (1881). Servii
             Grammatici qvi fervntvr in Vergilii carmina commentarii; in aedibvs B.G.
-            Tevbneri.</bibl></p>
+            Tevbneri.</bibl>. The base is corrected according to <bibl>Servius, 4th cent. (1946).
+              Servianorum in Vergilii carmina commentariorum editionis Harvardianae volumen.
+              Societatis Philologicae Americanae cura et impensis.</bibl></p>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
@@ -24,25 +26,24 @@
         <div type="commline" n="1" org="uniform" sample="complete">
           <ab><hi rend="caps">arma</hi> multi varie disserunt cur ab armis Vergilius coeperit, omnes
             tamen inania sentire manifestum est, cum eum constet aliunde sumpsisse principium, sicut
-            in praemissa eius vita monstratum est. per 'arma' autem bellum significat, et est tropus
-            metonymia. nam arma quibus in bello utimur pro bello posuit, sicut toga qua in pace
-            utimur pro pace ponitur, ut Cicero <cit>
+            in praemissa narratione monstratum est. intellegamus tamen per <emph>arma</emph> autem
+            'bellum' eum significasse, et est tropus metonymia. nam arma quibus in bello utimur pro
+            bello posuit, sicut toga qua in pace utimur pro pace ponitur, ut Cicero <cit>
               <quote>cedant arma togae</quote>
-            </cit>, id est bellum paci. alii ideo 'arma' hoc loco proprie<pb/> dicta accipiunt,
-            primo quod fuerint victricia, secundo quod divina, tertio quod prope semper armis virum
-            subiungit, ut <cit>
-              <quote>arma virumque ferens</quote>
-            </cit> et <cit>
-              <quote>arma acri facienda viro</quote>
-            </cit>. <hi rend="caps">arma virumque</hi> figura usitata est ut non eo ordine
-            respondeamus quo proposuimus; nam prius de erroribus Aeneae dicit, post de bello. hac
-            autem figura etiam in prosa utimur. sic Cicero in Verrinis <cit>
+            </cit>, id est bellum paci. et <hi rend="caps">arma virumque</hi> figura usitata est ut
+            non eo ordine respondeamus quo proposuimus; nam prius de erroribus Aeneae dicit, post de
+            bello. hac autem figura etiam in prosa utimur. sic Cicero in Verrinis <cit>
               <quote>nam sine ullo sumptu nostro coriis, tunicis frumentoque suppeditato maximos
                 exercitus nostros vestivit, aluit, armavit</quote>
             </cit>. non nulli autem hyperbaton putant, ut sit sensus talis 'arma virumque cano,
             genus unde Latinum Albanique patres atque altae moenia Romae', mox illa revoces 'Troiae
             qui primus ab oris'; sic enim causa operis declaratur, cur cogentibus fatis in Latium
-            venerit. et est poeticum principium professivum 'arma virumque cano', invocativum 'Musa
+            venerit. alii ideo 'arma' hoc loco proprie<pb/> dicta accipiunt, primo quod fuerint
+            victricia, secundo quod divina, tertio quod prope semper armis virum subiungit, ut <cit>
+              <quote>arma virumque ferens</quote>
+            </cit> et <cit>
+              <quote>arma acri facienda viro</quote>
+            </cit>. et est poeticum principium professivum 'arma virumque cano', invocativum 'Musa
             mihi causas memora', narrativum 'urbs antiqua fuit'. et professivum quattuor modis
             sumpsit: a duce 'arma virumque cano', ab itinere 'Troiae qui primus ab oris', a bello
             'multa quoque et bello passus', a generis successu 'genus unde Latinum'. <hi rend="caps"
