@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:oac="http://www.openannotation.org/ns/"
+  xmlns:lawd="http://lawd.info/ns/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"> 
+  <!-- Assumes a CTS-style service running at a "dllproject.org" site. In CTS-speak, this should be phi2349:005,
+       but that's Thilo & Hagen, and we're treating S and SA as two different texts, so I made something up. The
+       "lawd" prefix is a namespace we can use to invent the vocabulary we need to describe this stuff. We should
+       use existing vocabs where they exist, but they're not going to for a lot of our purposes.-->
+  <rdf:Description rdf:about="http://dllproject.org/cts/ServiusAuctus:Aeneid.1/annotation/b4752aa9f931800f1761a08c75c507e7">
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+    <rdfs:label>1.1</rdfs:label>
+    <oac:hasBody rdf:resource="http://dllproject.org/apparatus-entry/1234"/>
+    <oac:hasTarget>
+      <rdf:Description rdf:about="http://dllproject.org/cts/ServiusAuctus:Aeneid.1/loc:1234">
+        <rdf:type rdf:resource="http://www.openannotation.org/ns/FragmentSelector"/>
+        <!-- this is possibly obsolete -->
+        <dc:conformsTo rdf:resource="http://www.w3.org/2005/04/xpointer-schemes/match"/>
+        <!-- An XPointer that addresses the word "dixerunt" in the first comment on the first line of the Aeneid -->
+        <oac:hasSelector>match(//t:div[@type='commline' and @n='1']/seg[@n='1'],'dixerunt')</oac:hasSelector>
+        <oac:hasSource rdf:resource="http://dllproject.org/cts/ServiusAuctus:Aeneid.1"/>
+      </rdf:Description>
+    </oac:hasTarget>
+    <oac:annotatedAt>2013-02-15T13:20:35</oac:annotatedAt>
+    <oac:annotatedBy>
+      <!-- This assumes we provide everyone in the system with their own page. http://dllprojects.org/people/hcayless
+           represents me (really me). It will redirect to http://dllprojects.org/people/hcayless/, my page.-->
+      <rdf:Description rdf:about="http://dllprojects.org/people/hcayless">
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+        <foaf:name>Hugh Cayless</foaf:name>
+      </rdf:Description>
+    </oac:annotatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dllproject.org/apparatus-entry/1234">
+    <lawd:content>dixerunt</lawd:content>
+    <!-- This is a Replacement. I.e. an apparatus entry where the content replaces the annotation 
+      target. Other types might include lawd:Omission, lawd:Insertion, and lawd:Comment. -->
+    <rdf:type rdf:resource="http://lawd.info/ns/Replacement"/>
+    <!-- The following assumes the sigla from the preface have been modeled as RDF also -->
+    <lawd:witness rdf:resource="http://dllproject.org/Servius/witness/V"/>
+    <lawd:witness rdf:resource="http://dllproject.org/Servius/witness/W"/>
+  </rdf:Description>
+</rdf:RDF>
