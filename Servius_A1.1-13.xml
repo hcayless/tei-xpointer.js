@@ -18,42 +18,43 @@
   </teiHeader>
   <text>
     <body>
-      <div type="book">
-        <div type="commline" n="1" org="uniform" sample="complete">
-          <ab><seg type="comment" n="1"><hi rend="caps">arma</hi> multi varie disserunt cur ab armis Vergilius coeperit, omnes
-            tamen inania sentire manifestum est, cum eum constet aliunde sumpsisse principium, sicut
-            in praemissa eiusdem vita monstratum est. per <cit>
-              <quote>arma</quote>
-            </cit> autem 'bellum' significat, et est tropus metonymia. nam arma quibus in bello
-            utimur pro bello posuit, sicut toga qua in pace utimur pro pace ponitur, ut Cicero <cit>
-              <quote>cedant arma togae</quote>
-            </cit>, id est bellum paci. </seg><seg type="comment" n="2"><hi rend="caps">arma virumque</hi> figura usitata est ut non
-            eo ordine respondeamus quo proposuimus; nam prius de erroribus Aeneae dicit, post de
-            bello. hac autem figura etiam in prosa utimur. sic Cicero in Verrinis <cit>
-              <quote>nam sine ullo sumptu nostro coriis, tunicis frumentoque suppeditato maximos
-                exercitus nostros vestivit, aluit, armavit</quote>
-            </cit>. </seg><seg type="comment" n="3"><hi rend="caps">virum</hi> autem quem non dicit, sed circumstantiis ostendit Aeneam.
-              </seg><seg type="comment" n="4"><hi rend="caps">cano</hi> polysemus sermo est. tria enim significat: aliquando laudo,
-            ut <cit>
-              <quote>regemque canebant</quote>
-            </cit>; aliquando divino, ut <cit>
-              <quote>ipsa canas oro</quote>
-            </cit>; aliquando canto, ut hoc loco. nam proprie canto significat, quia cantanda
-            sunt carmina. </seg><seg type="comment" n="5"><hi rend="caps">Troiae</hi> Troia regio est Asiae, Ilium civitas Troiae;
-            plerumque tamen usurpant poetae et pro civitate vel regionem vel provinciam ponunt, ut
-            Iuvenalis <cit>
-              <quote>et flammis Asiam ferroque cadentem</quote>
-            </cit>. </seg><seg type="comment" n="6"><hi rend="caps">qui primus</hi> quaerunt multi, cur Aeneam primum ad Italiam
-            venisse dixerit, cum paulo post dicat Antenorem<pb/> ante adventum Aeneae fundasse
-            civitatem. constat quidem, sed habita temporum ratione peritissime Vergilius dixit.
-            namque illo tempore, quo Aeneas ad Italiam venit, finis erat Italiae usque ad Rubiconem
-            fluvium: cuius rei meminit Lucanus et Gallica certus limes ab Ausoniis disterminat arva
-            colonis. unde apparet Antenorem non ad Italiam venisse, sed ad Galliam cisalpinam, in
-            qua Venetia est. postea vero promotis usque ad Alpes Italiae finibus, novitas creavit
-            errorem. plerique tamen quaestionem hanc volunt ex sequentibus solvi, ut videatur ob hoc
-            addidisse Vergilius 'ad Lavina litora', ne significaret Antenorem. melior tamen est
-            superior expositio.</seg></ab>
-        </div>
+      <div type="work" n="Aeneid">
+        <div type="book" n="1">
+          <div type="commline" n="1" org="uniform" sample="complete">
+            <ab><seg type="comment" n="1"><hi rend="caps">arma</hi> multi varie disserunt cur ab armis Vergilius coeperit, omnes
+              tamen inania sentire manifestum est, cum eum constet aliunde sumpsisse principium, sicut
+              in praemissa eiusdem vita monstratum est. per <cit>
+                <quote>arma</quote>
+              </cit> autem 'bellum' significat, et est tropus metonymia. nam arma quibus in bello
+              utimur pro bello posuit, sicut toga qua in pace utimur pro pace ponitur, ut Cicero <cit>
+                <quote>cedant arma togae</quote>
+              </cit>, id est bellum paci. </seg><seg type="comment" n="2"><hi rend="caps">arma virumque</hi> figura usitata est ut non
+              eo ordine respondeamus quo proposuimus; nam prius de erroribus Aeneae dicit, post de
+              bello. hac autem figura etiam in prosa utimur. sic Cicero in Verrinis <cit>
+                <quote>nam sine ullo sumptu nostro coriis, tunicis frumentoque suppeditato maximos
+                  exercitus nostros vestivit, aluit, armavit</quote>
+              </cit>. </seg><seg type="comment" n="3"><hi rend="caps">virum</hi> autem quem non dicit, sed circumstantiis ostendit Aeneam.
+                </seg><seg type="comment" n="4"><hi rend="caps">cano</hi> polysemus sermo est. tria enim significat: aliquando laudo,
+              ut <cit>
+                <quote>regemque canebant</quote>
+              </cit>; aliquando divino, ut <cit>
+                <quote>ipsa canas oro</quote>
+              </cit>; aliquando canto, ut hoc loco. nam proprie canto significat, quia cantanda
+              sunt carmina. </seg><seg type="comment" n="5"><hi rend="caps">Troiae</hi> Troia regio est Asiae, Ilium civitas Troiae;
+              plerumque tamen usurpant poetae et pro civitate vel regionem vel provinciam ponunt, ut
+              Iuvenalis <cit>
+                <quote>et flammis Asiam ferroque cadentem</quote>
+              </cit>. </seg><seg type="comment" n="6"><hi rend="caps">qui primus</hi> quaerunt multi, cur Aeneam primum ad Italiam
+              venisse dixerit, cum paulo post dicat Antenorem<pb/> ante adventum Aeneae fundasse
+              civitatem. constat quidem, sed habita temporum ratione peritissime Vergilius dixit.
+              namque illo tempore, quo Aeneas ad Italiam venit, finis erat Italiae usque ad Rubiconem
+              fluvium: cuius rei meminit Lucanus et Gallica certus limes ab Ausoniis disterminat arva
+              colonis. unde apparet Antenorem non ad Italiam venisse, sed ad Galliam cisalpinam, in
+              qua Venetia est. postea vero promotis usque ad Alpes Italiae finibus, novitas creavit
+              errorem. plerique tamen quaestionem hanc volunt ex sequentibus solvi, ut videatur ob hoc
+              addidisse Vergilius 'ad Lavina litora', ne significaret Antenorem. melior tamen est
+              superior expositio.</seg></ab>
+          </div>
         <div type="commline" n="2" org="uniform" sample="complete">
           <ab><seg type="comment" n="1"><hi rend="caps">Italiam</hi> ars quidem hoc exigit, ut nominibus provinciarum
             praepositiones addamus, civitatum numquam. tamen plerumque hoc perverso ordine lectum est;
@@ -261,7 +262,7 @@
               <quote>longe alia mihi mens est patres conscripti</quote>
             </cit>.</seg></ab>
         </div>
-      </div>
+      </div></div>
     </body>
   </text>
 </TEI>

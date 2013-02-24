@@ -35,7 +35,7 @@
     </oac:annotatedBy>
   </rdf:Description>
   <rdf:Description rdf:about="http://dllproject.org/apparatus-entry/1234">
-    <lawd:content>dixerunt</lawd:content>
+    <lawd:reading>dixerunt</lawd:reading>
     <!-- This is a Replacement. I.e. an apparatus entry where the content replaces the annotation 
       target. Other types might include lawd:Omission, lawd:Insertion, and lawd:Comment. -->
     <rdf:type rdf:resource="http://lawd.info/ns/Replacement"/>

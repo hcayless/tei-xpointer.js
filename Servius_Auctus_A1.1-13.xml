@@ -2,7 +2,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Servius's Commentary on the Aeneid</title>
+        <title>Servius 's Commentary on the Aeneid</title>
       </titleStmt>
       <publicationStmt>
         <ab>Electronic edition for testing purposes only!</ab>
@@ -18,7 +18,8 @@
   </teiHeader>
   <text>
     <body>
-      <div type="book">
+      <div type="work" n="Aeneid">
+        <div type="book">
         <div type="commline" n="1" org="uniform" sample="complete">
           <ab><seg type="comment" n="1"><hi rend="caps">arma</hi> multi varie disserunt cur ab armis Vergilius coeperit, omnes
             tamen inania sentire manifestum est, cum eum constet aliunde sumpsisse 
@@ -362,7 +363,7 @@
             </cit>. 'Tiberina' autem pro Tiberis posuit. quidam sane ita volunt iungi, non 'longe
             ostia', sed 'longe dives', id est valde dives.</seg></ab>
         </div>
-      </div>
+      </div></div>
     </body>
   </text>
 </TEI>
