@@ -17,10 +17,8 @@
     <oa:hasTarget>
       <rdf:Description rdf:about="http://dllproject.org/cts/ServiusAuctus:Aeneid.1/loc:1234">
         <rdf:type rdf:resource="http://www.openannotation.org/ns/FragmentSelector"/>
-        <!-- this is possibly obsolete -->
-        <dc:conformsTo rdf:resource="http://www.w3.org/2005/04/xpointer-schemes/match"/>
         <!-- An XPointer that addresses the word "dixerunt" in the first comment on the first line of the Aeneid -->
-        <oa:hasSelector>match(//t:div[@type='commline' and @n='1']/seg[@n='1'],'dixerunt')</oa:hasSelector>
+        <oa:hasSelector>match(//t:div[@type='commline' and @n='1']/seg[@n='1'],/dixerunt/)</oa:hasSelector>
         <oa:hasSource rdf:resource="http://dllproject.org/cts/ServiusAuctus:Aeneid.1"/>
       </rdf:Description>
     </oa:hasTarget>
