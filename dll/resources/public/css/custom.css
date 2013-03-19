@@ -1,0 +1,10 @@
+/* Place project-specific CSS here */
+ann#cursor {
+background-color:blue;
+width:1em;
+height:1em;
+padding:1px;
+}
+textarea#annotation-body {
+width: 100%;
+}

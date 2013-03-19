@@ -1,0 +1,23 @@
+body {
+margin-top: -8px;
+padding: 0;
+}
+div#content {
+float:left;
+width:70%;
+border-right:thin solid gray;
+padding: 0 1em 0 1em;
+margin: 0;
+}
+div#sidebar {
+float:left;
+padding: 0 1em 0 1em;
+margin-top:-8px;
+width:20%;
+}
+.caps {
+  text-transform:uppercase;
+}
+.quotation {
+  font-style: italic;
+}
