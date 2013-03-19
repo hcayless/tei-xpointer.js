@@ -73,6 +73,7 @@ var Annotate = {
       }
       var xpointer = "string-index(//div[@n='"+line+"']//seg[@n='"+comment+"'],"+offset+")";
       jQuery("p#xpointer").html('<a href="#' + xpointer + '"><i>insertion</i></a>');
+      Annotate.select(selection.getRangeAt(0));
     }
   }
 }
