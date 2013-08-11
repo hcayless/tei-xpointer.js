@@ -8,8 +8,8 @@ var XPointer = {
     var p = decodeURIComponent(pointer.replace(/^#/,''));
     var result = {fname:'',context:null,params:[]};
     result.fname = p.match(/^([^()]+)\(/)[1];;
-    p = p.replace(result.fname,'').replace(/\(/,'').replace(/\)/,'');
-    p = p.split(',');
+    p = p.replace(result.fname,'').replace(/^\(/,'').replace(/\)$/,'');
+    p = XPointer.split(p); 
     if (result.fname == "range") {
       if (p[0].trim().match(/^(left|right|string-index)/)) {
         result.params.push(XPointer.parsePointer(p[0].trim()));
@@ -26,7 +26,7 @@ var XPointer = {
       result.context = XPointer.getNode(p[0].trim());
       switch (result.fname) {
         case "match":
-          result.params.push(new RegExp(p[1].trim().replace(/^\//,'').replace(/\/$/,''), 'g'));
+          result.params.push(new RegExp(p[1].trim().replace(/^'/,'').replace(/'$/,''), 'g'));
           if (p[2]) {
             result.params.push(parseInt(p[2].trim()));
           } else {
@@ -44,6 +44,23 @@ var XPointer = {
         case "left":
         case "right":
           break;
+      }
+    }
+    return result;
+  },
+  split: function(exprs) {
+    var i,s;
+    var ref = 0;
+    var result = [];
+    for (i=0,s=0; i < exprs.length; i++) {
+      if (exprs.charAt(i) == '(') s++;
+      if (exprs.charAt(i) == ')') s--;
+      if (exprs.charAt(i) == ',' && s == 0) {
+        result.push(exprs.substring(ref,i));
+        ref = i + 1;
+      }
+      if (i == exprs.length - 1) {
+        result.push(exprs.substring(ref));
       }
     }
     return result;
@@ -70,7 +87,7 @@ var XPointer = {
       context = document;
     }
     var result;
-    if (xpath.match(/^\//)) { // it's actually an XPath, not an IDREF
+    if (xpath.match(/^\//) || xpath.match(/^id\(/)) { // it's actually an XPath, not an IDREF
       var xpr = document.evaluate(xpath,context,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
       result = xpr.singleNodeValue;
       if (!result) {
@@ -125,7 +142,8 @@ var XPointer = {
               range.setStartAfter(pointer.params[0].context)
               break;
             case "string-index":
-              range.setStart(pointer.params[0].context,pointer.params[0].params[0]);
+              var positions = XPointer.getLocation(pointer.params[0].context,pointer.params[0].params[0],0);
+              range.setStart(positions[0],positions[1]);
           }
         } else {
           range.setStart(pointer.params[0],0);
@@ -139,11 +157,14 @@ var XPointer = {
               range.setEndAfter(pointer.params[1].context)
               break;
             case "string-index":
-              range.setEnd(pointer.params[1].context,pointer.params[1].params[0]);
+              var positions = XPointer.getLocation(pointer.params[1].context,pointer.params[1].params[0],0);
+              range.setEnd(positions[0],positions[1]);
+              
           }
         } else {
           range.setEnd(pointer.params[1],0);
         }
+        break;
       case "match":
         var match = XPointer.getMatchLocation(pointer.context,pointer.params[0],pointer.params[1]);
         range.setStart(match[0],match[1]);
@@ -206,7 +227,7 @@ var XPointer = {
   },
   locateNodes: function(xpr, index, length, result) {
     var node = xpr.iterateNext();
-    var currentlen = 0
+    var currentlen = 0;
     while (node) {
       currentlen += node.length;
       if (result.length == 0 && currentlen >= index) {

@@ -51,7 +51,7 @@ var Annotate = {
       var precedingText = jQuery(elt).text().substring(0,pos);
       var re = new RegExp(lemma, 'g');
       var matches = precedingText.match(re);
-      var xpointer = "match(//div[@n='"+line+"']//seg[@n='"+comment+"'],/" + lemma + "/";
+      var xpointer = "match(//div[@n='"+line+"']//seg[@n='"+comment+"'],'" + lemma + "'";
       if (matches && matches.length > 0) {
         xpointer += "," + (matches.length + 1);
       }
