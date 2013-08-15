@@ -26,7 +26,7 @@ var XPointer = {
       result.context = XPointer.getNode(p[0].trim());
       switch (result.fname) {
         case "match":
-          result.params.push(new RegExp(p[1].trim().replace(/^'/,'').replace(/'$/,''), 'g'));
+          result.params.push(new RegExp(p[1].replace(/ /g,'\\s+').replace(/\?/g,'\\?').replace(/\*/g,'\\*').replace(/^'/,'').replace(/'$/,''), 'g'));
           if (p[2]) {
             result.params.push(parseInt(p[2].trim()));
           } else {
@@ -47,6 +47,9 @@ var XPointer = {
       }
     }
     return result;
+  },
+  escapeRe: function(regex) {
+    
   },
   split: function(exprs) {
     var i,s;
@@ -88,7 +91,7 @@ var XPointer = {
     }
     var result;
     if (xpath.match(/^\//) || xpath.match(/^id\(/)) { // it's actually an XPath, not an IDREF
-      var xpr = document.evaluate(xpath,context,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
+      var xpr = document.evaluate(xpath.replace(/@xml:id/g,"@id"),context,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
       result = xpr.singleNodeValue;
       if (!result) {
         throw "Unable to resolve XPath " + xpath
@@ -205,6 +208,15 @@ var XPointer = {
         var positions = XPointer.getLocation(pointer.context,pointer.params[0],0);
         range.setStart(positions[0],positions[1]);
         range.setEnd(positions[2],positions[3]);
+        break;
+      case "xpath":
+        range.setStart(pointer.context.firstChild,0);
+        if (pointer.context.lastChild.nodeType == Node.TEXT_NODE) {
+          range.setEnd(pointer.context.lastChild,pointer.context.lastChild.length);
+        } else {
+          range.setEnd(pointer.context.lastChild,pointer.context.lastChild.innerText.length);
+        }
+        
     }
     return range;
   },

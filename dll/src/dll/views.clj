@@ -29,9 +29,9 @@
                  [:a {:href "/cts/dll/Servius_Auctus.Aeneid/1/xml"} "[source]"]]
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1#string-index(//div[@n='5']//seg[@n='1'],34)"} 
                  " A point in the first comment on line 5."]]
-            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='1'],/disserunt/)"} 
+            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='1'],'disserunt')"} 
                  " A match on the word 'disserunt' in the first comment on line 1."]]
-            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='5'],/Iuvenalis et flammis/)"} 
+            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='5'],'Iuvenalis et flammis'],')"} 
                  " A match that crosses element boundaries."]]
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1#string-range(//div[@n='1']//seg[@n='5'],167,20)"} 
                  " An equivalent string-range that crosses element boundaries."]]

@@ -15,17 +15,88 @@ var Annotate = {
   clear: function() {
     jQuery("#cursor").remove();
   },
+  findXPath: function(elt) {
+    elt = jQuery(elt);
+    if (elt[0].nodeType == Node.TEXT_NODE) {
+      //look first for preceding sibling line breaks.
+      var lb;
+      try {
+        lb = XPointer.getNode("preceding-sibling::lb[1]", elt);
+        return Annotate.findXPath(lb);
+      } catch (err) {
+        return Annotate.findXPath(elt.parent()[0]);
+      }
+    }
+    //simple case, there's an xml:id on the element
+    if (!elt.attr("id").match(/^teibp-/)) {
+      return [elt.attr("id"), elt];
+    }
+    /* Build a path array with as specific an XPath as we can manage. Look back and 
+     * up the tree for lb, line, seg, p, ab, and div tags with @n, @type, or @xml:id
+     * attributes. */
+     var path = [];
+    //see if current element has an @n attribute
+    if (elt.attr("n")) {
+      path.push(elt[0].localName+"[@n='"+jQuery(elt).attr("n")+"']");
+    }
+    var parents = elt.parentsUntil("TEI");
+    // iterate up the tree until the <text> element
+    for (var i = 0; i < parents.length; i++) {
+      var curr = jQuery(parents[i]);
+      // if we find an element with its own @xml:id, we're done
+      if (!curr.attr("id").match(/^teibp-/)) {
+        if (path[0]) {
+          path.push("//"+curr[0].localName+"[@xml:id='"+curr.attr("id")+"']");
+          return [path.reverse().join("//"),elt[0]];
+        } else {
+          return [curr.attr("id"),curr[0]];
+        }
+      } else if (curr.attr("n")) {
+        if (!path[0]) {
+          elt = curr;
+        }
+        path.push(curr[0].localName+"[@n='"+curr.attr("n")+"']");
+      } else if (curr.attr("type")) {
+        if (!path[0]) {
+          elt = curr;
+        }
+        path.push(curr[0].localName+"[@type='"+curr.attr("type")+"']");
+      }
+    }
+    // if the path now has at least one component, return it and the element
+    if (path[0]) {
+      return ["//" + path.reverse().join("//"),elt[0]];
+    // we got nothin'. Build a nasty, big, literal XPath
+    } else {
+      xpath = "count(preceding-sibling::"+elt[0].localName+")";
+      var count = document.evaluate(xpath, elt[0], null, XPathResult.NUMBER, null);
+      path.push(elt[0].localName+"["+(count+1)+"]");
+      for (var i = 0; i < parents.length - 1; i++) {
+        xpath = "count(preceding-sibling::"+parents[i].localName+")";
+        count = document.evaluate(xpath, parents[i], null, XPathResult.NUMBER, null);
+        path.push(elt[0].localName+"["+(count+1)+"]");
+      }
+      return ["//"+path.reverse().join("/"),elt[0]];
+    } 
+  },
   load: function(elt) {
     var selection = rangy.getSelection();
     var lemma = selection.toString();
-    if (lemma.length > 0) {
-      var line = jQuery(elt).parents("div[n]").attr("n");
-      var comment;
-      if (jQuery(elt).attr("n")) {
-        comment = jQuery(elt).attr("n");
-      } else {
-        comment = jQuery(elt).parents("seg[n]").attr("n");
+    var path;
+    // figure out where to start: preceding <lb/> or nearest common container.
+    if (selection.getRangeAt(0).startContainer == selection.getRangeAt(0).endContainer) {
+      path = Annotate.findXPath(selection.getRangeAt(0).startContainer);
+    } else {
+      try {
+        var lb = XPointer.getNode("preceding-sibling::lb[1]", selection.getRangeAt(0).startContainer);
+        path = Annotate.findXPath(lb);
+      } catch (err) {
+        path = Annotate.findXPath(selection.getRangeAt(0).commonAncestorContainer);
       }
+    }
+    elt = path[1];
+    path = path[0];
+    if (lemma.length > 0) {
       var preceding = [];
       var anchorOffset = selection.anchorOffset;
       var children = jQuery(elt).contents();
@@ -51,15 +122,13 @@ var Annotate = {
       var precedingText = jQuery(elt).text().substring(0,pos);
       var re = new RegExp(lemma, 'g');
       var matches = precedingText.match(re);
-      var xpointer = "match(//div[@n='"+line+"']//seg[@n='"+comment+"'],'" + lemma + "'";
+      var xpointer = "match("+path+",'" + lemma + "'";
       if (matches && matches.length > 0) {
         xpointer += "," + (matches.length + 1);
       }
       xpointer += ")";
       jQuery("p#xpointer").html('<a href="#' + xpointer + '">'+ lemma + '</a>');
     } else {
-      var line = jQuery(elt).parents("[n]").attr("n");
-      var comment = jQuery(elt).attr("n");
       var preceding = [];
       var offset = selection.anchorOffset;
       var children = jQuery(elt).contents();
@@ -71,7 +140,7 @@ var Annotate = {
         var text = jQuery(preceding[i]).text();
         offset += text.length;
       }
-      var xpointer = "string-index(//div[@n='"+line+"']//seg[@n='"+comment+"'],"+offset+")";
+      var xpointer = "string-index("+path+","+offset+")";
       jQuery("p#xpointer").html('<a href="#' + xpointer + '"><i>insertion</i></a>');
       Annotate.select(selection.getRangeAt(0));
     }

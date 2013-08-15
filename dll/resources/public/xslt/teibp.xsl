@@ -212,7 +212,7 @@
 		<xsl:if test="not(@xml:id) and not(ancestor::eg:egXML)">
 			<xsl:attribute name="id">
 				<xsl:call-template name="generate-unique-id">
-					<xsl:with-param name="root" select="generate-id()"/>
+					<xsl:with-param name="root" select="concat('teibp-',generate-id())"/>
 				</xsl:call-template>
 			</xsl:attribute>
 		</xsl:if>

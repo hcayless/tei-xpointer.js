@@ -21,7 +21,7 @@
     <body>
       <div type="work" n="Aeneid">
         <div type="book">
-        <div type="commline" n="1" org="uniform" sample="complete">
+        <div type="commline" n="1" org="uniform" sample="complete" xml:id="foo">
           <ab><seg type="comment" n="1"><hi rend="caps">arma</hi> multi varie disserunt cur ab armis Vergilius coeperit, omnes
             tamen inania sentire manifestum est, cum eum constet aliunde sumpsisse 
             principium, sicut in praemissa narratione monstratum est. intellegamus tamen per <emph>arma</emph> autem
@@ -82,7 +82,7 @@
             </cit>. </seg><seg type="comment" n="8"><hi rend="caps">ab oris</hi> speciem pro genere; nam oras terras generaliter
             debemus accipere. sane praepositionem mutavit, nam 'ex oris' melius potuit dicere.</seg></ab>
         </div>
-        <div type="commline" n="2" org="uniform" sample="complete">
+        <div type="commline" n="2" org="uniform" sample="complete" xml:id="bar">
           <ab><seg type="comment" n="1"><hi rend="caps">Italiam</hi> ars quidem hoc exigit, ut nominibus provinciarum
             praepositiones addamus, civitatum numquam. tamen plerumque hoc perverso ordine lectum
             est; nam ecce hoc loco detraxit provinciae praepositionem dicens 'Italiam venit' pro ad
