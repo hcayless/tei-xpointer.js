@@ -21,7 +21,8 @@ var Annotate = {
       //look first for preceding sibling line breaks.
       var lb;
       try {
-        lb = XPointer.getNode("preceding-sibling::lb[1]", elt);
+        var lb = document.evaluate("preceding::lb[1]",elt[0],null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
+        lb = lb.singleNodeValue;        
         return Annotate.findXPath(lb);
       } catch (err) {
         return Annotate.findXPath(elt.parent()[0]);
@@ -88,7 +89,8 @@ var Annotate = {
       path = Annotate.findXPath(selection.getRangeAt(0).startContainer);
     } else {
       try {
-        var lb = XPointer.getNode("preceding-sibling::lb[1]", selection.getRangeAt(0).startContainer);
+        var lb = document.evaluate("preceding::lb[1]",selection.getRangeAt(0).startContainer,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
+        lb = lb.singleNodeValue;
         path = Annotate.findXPath(lb);
       } catch (err) {
         path = Annotate.findXPath(selection.getRangeAt(0).commonAncestorContainer);
@@ -131,11 +133,27 @@ var Annotate = {
     } else {
       var preceding = [];
       var offset = selection.anchorOffset;
+      var anchor = selection.getRangeAt(0).startContainer
       var children = jQuery(elt).contents();
-      for (var i = 0; i < children.length; i++) {
-        if (children[i] == selection.anchorNode || children[i] == selection.anchorNode.parentNode || children[i] == selection.anchorNode.parentNode.parentNode) break;
-        preceding.push(children[i]);
+      if (children.length == 0) { //we're at an <lb/> or other empty element
+        var found = false;
+        var curr = elt;
+        while(curr != anchor) {
+          curr = curr.nextSibling;
+          var desc = document.evaluate("descendent-or-self::node()",selection.getRangeAt(0).startContainer,null,XPathResult.ORDERED_NODE_ITERATOR_TYPE,null);
+          while (var item = desc.iterateNext()) {
+            if (item.nodeType = Node.TEXT_NODE && item != anchor) {
+              preceding.push(item.valueOf());
+            }
+          }
+        }
+      } else {
+        for (var i = 0; i < children.length; i++) {
+          if (children[i] == selection.anchorNode || children[i] == selection.anchorNode.parentNode || children[i] == selection.anchorNode.parentNode.parentNode) break;
+          preceding.push(children[i]);
+        }
       }
+      
       for (var i = 0; i < preceding.length; i++) {
         var text = jQuery(preceding[i]).text();
         offset += text.length;
@@ -162,9 +180,9 @@ jQuery(window).on("hashchange", function(e) {
   Annotate.select(range);
   Annotate.load(range.startContainer);
 });
-jQuery("seg[type=comment]").mousedown(function(e) {
+jQuery("ab").mousedown(function(e) {
   Annotate.clear();
 });
-jQuery("seg[type=comment]").mouseup(function(e) {
+jQuery("ab  ").mouseup(function(e) {
   Annotate.load(this);
 });

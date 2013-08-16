@@ -11,17 +11,14 @@ var XPointer = {
     p = p.replace(result.fname,'').replace(/^\(/,'').replace(/\)$/,'');
     p = XPointer.split(p); 
     if (result.fname == "range") {
-      if (p[0].trim().match(/^(left|right|string-index)/)) {
-        result.params.push(XPointer.parsePointer(p[0].trim()));
-      } else {
-        result.params.push(XPointer.getNode(p[0].trim()));
+      for (var i = 0; i < p.length; i++) {
+        if (p[i].trim().match(/^(left|right|string-index)/)) {
+          result.params.push(XPointer.parsePointer(p[i].trim()));
+        } else {
+          result.params.push(XPointer.getNode(p[i].trim()));
+        }
       }
-      if (p[1].trim().match(/^(left|right|string-index)/)) {
-        result.params.push(XPointer.parsePointer(p[1].trim()));
-      } else {
-        result.params.push(XPointer.getNode(p[1].trim()));
-      }
-      result.context = XPointer.findCommonAncestor(result.params[0],result.params[1]); //TODO: write this
+      result.context = result.params.reduce(XPointer.findCommonAncestor); 
     } else {
       result.context = XPointer.getNode(p[0].trim());
       switch (result.fname) {
@@ -83,7 +80,7 @@ var XPointer = {
       p2 = n2;
     }
   },
-  /* Takes an XPath (or element id) and an optional context, and returns
+  /* Takes an absolute XPath (or element id) and an optional context, and returns
    * the first matching node or throws an error. */
   getNode: function(xpath, context){ 
     if (!context) {
