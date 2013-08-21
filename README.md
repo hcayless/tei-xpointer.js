@@ -1,10 +1,10 @@
 # tei-xpointer.js - TEI Pointer Library
 
-This repository contains a partially-functional mockup of an XML annotation service. It utilizes code from jQuery, Rangy, and TEI Boilerplate to enable the display of unmodified XML documents in the browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents.
+This repository contains an implementation of the [https://docs.google.com/document/d/1JsMA-gOGrevyY-crzHGiC7eZ8XdV5H_wFTlUGzrf20w/edit#](draft proposal) for new TEI XPointers. It utilizes code from jQuery, [https://code.google.com/p/rangy/](Rangy), and [http://dcl.slis.indiana.edu/teibp/](TEI Boilerplate) to enable the display of unmodified XML documents in the browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents.
 
 ## Prerequisites
 
-You will need [Leiningen][1] 1.7.0 or above installed.
+You will need [Leiningen][1] 1.7.0 or above installed to run the document loading application, which reads TEI P5 XML files either locally or from the web and delivers them to the browser with the TEI Boilerplate XSLT processing inscruction added.
 
 [1]: https://github.com/technomancy/leiningen
 
