@@ -6,7 +6,8 @@
   (:import [java.io BufferedInputStream File FileInputStream InputStream]
            [java.nio.charset Charset]
            [java.util Date]
-           [java.net URL URLConnection]))
+           [java.net URL URLConnection]
+           [org.apache.commons.codec.digest DigestUtils]))
   
 
 (def teibpxsl "\n<?xml-stylesheet type=\"text/xsl\" href=\"/xslt/teibp.xsl\"?>")
@@ -48,6 +49,7 @@
   
 (defn- url-content-length
   [resp conn]
+  (println (.getContentLength conn))
   (response/header resp "Content-Length" (+ (.getContentLength conn) (alength teibpxslarr))))
 
 (defn- url-last-modified
@@ -101,8 +103,10 @@
   [uri]
   (if-let [resource (URL. uri)]
     (let [conn (.openConnection resource)
-          in (bp-inputstream (.getInputStream conn))]
-      (-> (response/response in)
-          (url-content-length conn)
-          (url-last-modified conn)))))
+          in (.getInputStream conn)
+          tmp (File/createTempFile (DigestUtils/sha1Hex (.toString resource)) ".xml")]
+          (io/copy in tmp)
+      (-> (response/response (bp-inputstream (FileInputStream. tmp)))
+          (file-content-length tmp)
+          (file-last-modified tmp)))))
 

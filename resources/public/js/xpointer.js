@@ -255,7 +255,18 @@ var XPointer = {
   /* Given a context node, a RegExp, and the match number, finds the start and end nodes,
    * and the offsets within them where the match is located. Returns an array like getLocation(). */
   getMatchLocation: function(contextNode, re, index){
-    var text = jQuery(contextNode).text();
+    var text;
+    if (contextNode.childNodes.length == 0) {
+      var following = [];
+      var currNode = contextNode.nextSibling;
+      while (currNode.localName != "lb") {
+        following.push(jQuery(currNode).text());
+        currNode = currNode.nextSibling;
+      }
+      text = following.join("");
+    } else {
+      text = jQuery(contextNode).text();
+    }
     var matches = text.match(re);
     var matchindex = -1;
     for (var i = 0; i < index; i++) {

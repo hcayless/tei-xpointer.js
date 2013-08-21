@@ -69,6 +69,37 @@
 				</div>
 			  <script type="text/javascript" src="/js/xpointer.js"/>
         <script type="text/javascript" src="/js/annotate.js"/>
+        <script type="text/javascript">
+          function load_document(URL) {
+            URL = encodeURIComponent(jQuery('#URL').val());
+            window.location = '/proxy/' + URL;
+          }
+          jQuery(window).load(function() {
+            if (window.location.hash) {
+              var p = XPointer.parsePointer(window.location.hash);
+              var range = XPointer.select(p);
+              jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
+              Annotate.select(range);
+              jQuery("#xpointer").text(Annotate.xpointer());
+            }
+          });
+          jQuery(window).on("hashchange", function(e) {
+            var p = XPointer.parsePointer(window.location.hash);
+            var range = XPointer.select(p);
+            jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
+            Annotate.select(range);
+            jQuery("#xpointer").text(Annotate.xpointer());
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.pathname + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+          });
+          jQuery("text").mousedown(function(e) {
+            Annotate.clear();
+          });
+          jQuery("text").mouseup(function(e) {
+            jQuery("#xpointer").text(Annotate.xpointer());
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.pathname + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            Annotate.select(rangy.getSelection().getRangeAt(0));
+          });
+        </script>
 			</body>
 		</html>
 	</xsl:template>
@@ -207,6 +238,10 @@
 			<xsl:apply-templates select="@*|node()"/>
 		</xsl:element>
 	</xsl:template>
+  
+  <xsl:template match="tei:title">
+    <title><xsl:value-of select="."/></title>
+  </xsl:template>
 	
 	<xsl:template name="addID">
 		<xsl:if test="not(@xml:id) and not(ancestor::eg:egXML)">
@@ -319,24 +354,13 @@
 
 	<xsl:template name="teibpToolbox">
     <div id="sidebar"><form action="Servius_A1_submit" method="get" accept-charset="utf-8">
-      <h2>annotate</h2>
-      <p id="lemma"></p>
-      <p id="xpointer"></p>
-      <p><textarea id="annotation-body" name="annotation" rows="8">No annotations yet. This is just what the annotation widget might look like. Click or drag across text to create xpointers and then click the link above to see them in action.</textarea></p>
-      <p><label for="anntype">Type:</label>
-        <select name="anntype" id="anntype" onchange="" size="1">
-          <option value="option1">Replacement</option>
-          <option value="option2">Insertion</option>
-          <option value="option3">Omission</option>
-        </select></p>
-      <p><label for="witness">Witness:</label>
-        <select name="witness" id="witness" onchange="" size="1">
-          <option value="option1">V</option>
-          <option value="option2">W</option>
-          <option value="option3">σ</option>
-        </select>
-      </p>
-      <p><input type="submit" value="Save"/></p>
+      <h2>TEI XPointer Tool</h2>
+      <textarea id="xpointer" name="xpointer" rows="2"></textarea>
+      <p id="xpointerlink"></p>
+      <h4>Paste in the URL of a TEI P5 document to load it:</h4>
+      <p>e.g. http://www.ota.ox.ac.uk/text/5730.xml</p>
+      <p><textarea id="URL" name="URL" rows="2"></textarea></p>
+      <p><input type="button" value="Load" onclick="load_document(jQuery('#URL'));"/></p>
     </form></div>
 		
 	</xsl:template>
