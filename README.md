@@ -14,7 +14,7 @@ To start a web server for the application, run:
 
     lein ring server-headless
     
-
+Go to http://localhost:3000 to see an example text. Any TEI P5 text on the web can be loaded using the widget on the right in the text view. Do note that TEI Boilerplate doesn't cope well with absolutely every TEI construct, particularly when there is no standard display for a given element.
 
 ## License
 
