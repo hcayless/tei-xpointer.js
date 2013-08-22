@@ -101,7 +101,7 @@ var Annotate = {
     
   },
   generate_match: function(selection, context, contextPath) {
-    var lemma = selection.toString().replace(/\\/g, '\\').replace(/\s+/g, '\\s+').replace(/'/g, "\\'");
+    var lemma = selection.toString().replace(/\\/g, '\\');
     var preceding = [];
     var anchorOffset = selection.anchorOffset;
     var children = jQuery(context).contents();
@@ -128,7 +128,7 @@ var Annotate = {
     var precedingText = jQuery(context).text().substring(0,pos);  //not going to work if our context is an lb
     var re = new RegExp(lemma, 'g');
     var matches = precedingText.match(re);
-    var xpointer = "match("+contextPath+",'" + lemma + "'";
+    var xpointer = "match("+contextPath+",'" + lemma.replace(/\s+/g, '\\s+').replace(/'/g, "\\'") + "'";
     if (matches && matches.length > 0) {
       xpointer += "," + (matches.length + 1);
     }
