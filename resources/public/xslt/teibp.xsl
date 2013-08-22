@@ -76,7 +76,7 @@
               var range = XPointer.select(p);
               jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
               Annotate.select(range);
-              jQuery("#xpointer").text(Annotate.xpointer());
+              jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
             }
           });
           jQuery(window).on("hashchange", function(e) {
@@ -84,15 +84,15 @@
             var range = XPointer.select(p);
             jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
             Annotate.select(range);
-            jQuery("#xpointer").text(Annotate.xpointer());
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
           });
           jQuery("text").mousedown(function(e) {
             Annotate.clear();
           });
           jQuery("text").mouseup(function(e) {
-            jQuery("#xpointer").text(Annotate.xpointer());
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
             Annotate.select(rangy.getSelection().getRangeAt(0));
           });
         </script>
@@ -351,6 +351,7 @@
 	<xsl:template name="teibpToolbox">
     <div id="sidebar"><form action="/proxy" method="get" accept-charset="utf-8">
       <h2>TEI XPointer Tool</h2>
+      <p>Click on any point in the text, double click to select a word, or click and drag to select text. A TEI Pointer will be created that can reference your selection, even across element boundaries.</p>
       <p id="xpointer"></p>
       <p id="xpointerlink"></p>
       <h4>Paste in the URL of a TEI P5 document to load it:</h4>

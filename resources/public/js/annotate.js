@@ -97,8 +97,11 @@ var Annotate = {
     }
     return ["//"+path.reverse().join("/"),elt[0]];
   },
+  generate_range: function(selection, context, contextPath) {
+    
+  },
   generate_match: function(selection, context, contextPath) {
-    var lemma = selection.toString().replace(/\\/g, '\\').replace(/ /g, '\s+');
+    var lemma = selection.toString().replace(/\\/g, '\\').replace(/\s+/g, '\\s+').replace(/'/g, "\\'");
     var preceding = [];
     var anchorOffset = selection.anchorOffset;
     var children = jQuery(context).contents();

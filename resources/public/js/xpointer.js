@@ -49,18 +49,28 @@ var XPointer = {
     
   },
   split: function(exprs) {
+    exprs = exprs.replace(/\\'/g, "&apos;");
     var i,s;
     var ref = 0;
     var result = [];
     for (i=0,s=0; i < exprs.length; i++) {
       if (exprs.charAt(i) == '(') s++;
       if (exprs.charAt(i) == ')') s--;
+      if (exprs.charAt(i) == "'") {
+        if (s == 0) {
+          s++;
+        } else {
+          s--;
+        }
+      } 
+      
+      
       if (exprs.charAt(i) == ',' && s == 0) {
-        result.push(exprs.substring(ref,i));
+        result.push(exprs.substring(ref,i).replace(/&apos;/g, "'"));
         ref = i + 1;
       }
       if (i == exprs.length - 1) {
-        result.push(exprs.substring(ref));
+        result.push(exprs.substring(ref).replace(/&apos;/g, "'"));
       }
     }
     return result;
