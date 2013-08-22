@@ -11,6 +11,9 @@
   (GET "/proxy/:uri"
     [uri] 
     (bp-uri-response uri))
+  (GET "/proxy"
+    [uri]
+    (bp-uri-response uri))
   (GET "/cts/dll/:author.:work/:section" 
     [author work section] (bp-file-response (str author "_" work "." section ".1-13.xml") {:root "public"}))
   (GET "/cts/dll/:author.:work/:section/xml" 

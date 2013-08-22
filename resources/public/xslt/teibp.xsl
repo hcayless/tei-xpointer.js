@@ -353,14 +353,14 @@
 	</xsl:variable>
 
 	<xsl:template name="teibpToolbox">
-    <div id="sidebar"><form action="Servius_A1_submit" method="get" accept-charset="utf-8">
+    <div id="sidebar"><form action="/proxy" method="get" accept-charset="utf-8">
       <h2>TEI XPointer Tool</h2>
-      <textarea id="xpointer" name="xpointer" rows="2"></textarea>
+      <p id="xpointer"></p>
       <p id="xpointerlink"></p>
       <h4>Paste in the URL of a TEI P5 document to load it:</h4>
       <p>e.g. http://www.ota.ox.ac.uk/text/5730.xml</p>
-      <p><textarea id="URL" name="URL" rows="2"></textarea></p>
-      <p><input type="button" value="Load" onclick="load_document(jQuery('#URL'));"/></p>
+      <p><textarea id="uri" name="uri" rows="2"></textarea></p>
+      <p><input type="submit" value="Load" onclick="load_document(jQuery('#URL'));"/></p>
     </form></div>
 		
 	</xsl:template>
