@@ -70,10 +70,6 @@
 			  <script type="text/javascript" src="/js/xpointer.js"/>
         <script type="text/javascript" src="/js/annotate.js"/>
         <script type="text/javascript">
-          function load_document(URL) {
-            URL = encodeURIComponent(jQuery('#URL').val());
-            window.location = '/proxy/' + URL;
-          }
           jQuery(window).load(function() {
             if (window.location.hash) {
               var p = XPointer.parsePointer(window.location.hash);
@@ -89,14 +85,14 @@
             jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
             Annotate.select(range);
             jQuery("#xpointer").text(Annotate.xpointer());
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.pathname + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
           });
           jQuery("text").mousedown(function(e) {
             Annotate.clear();
           });
           jQuery("text").mouseup(function(e) {
             jQuery("#xpointer").text(Annotate.xpointer());
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.pathname + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
             Annotate.select(rangy.getSelection().getRangeAt(0));
           });
         </script>
@@ -360,7 +356,7 @@
       <h4>Paste in the URL of a TEI P5 document to load it:</h4>
       <p>e.g. http://www.ota.ox.ac.uk/text/5730.xml</p>
       <p><textarea id="uri" name="uri" rows="2"></textarea></p>
-      <p><input type="submit" value="Load" onclick="load_document(jQuery('#URL'));"/></p>
+      <p><input type="submit" value="Load"/></p>
     </form></div>
 		
 	</xsl:template>
