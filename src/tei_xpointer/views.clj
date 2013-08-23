@@ -22,7 +22,7 @@
       [:body
         [:h1 "Hello World"]
         [:div 
-          [:p "This demo takes some sample TEI XML files (from the Thilo and Hagen edition of Servius's commentary on Vergil's Aeneid) and uses a modified TEI Boilerplate stylesheet to wrap them in a mocked-up annotation system that uses the " [:a {:href "https://docs.google.com/document/d/1JsMA-gOGrevyY-crzHGiC7eZ8XdV5H_wFTlUGzrf20w"} "draft TEI Pointer spec"] ". Some example URLs are listed below."]
+          [:p "This demo takes some sample TEI P5 XML files (derived from the Thilo and Hagen edition of Servius's commentary on Vergil's Aeneid on " [:a {:href "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0053%3Abook%3D1%3Acommline%3D1"} "Perseus"] ") and uses a modified TEI Boilerplate stylesheet to bundle them with a widget that illustrates the use of TEI Pointers according to the " [:a {:href "https://docs.google.com/document/d/1JsMA-gOGrevyY-crzHGiC7eZ8XdV5H_wFTlUGzrf20w"} "draft TEI Pointer spec"] ". The Source code is available on "[:a {:href "https://github.com/hcayless/tei-xpointer.js"} "Github"] ". Some example URLs are listed below."]
           [:ul
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1"} " The first bit of Servius."] " " 
                  [:a {:href "/cts/dll/Servius.Aeneid/1/xml"} "[source]"]]
@@ -32,7 +32,7 @@
                  " A point in the first comment on line 5."]]
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='1'],'disserunt')"} 
                  " A match on the word 'disserunt' in the first comment on line 1."]]
-            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='5'],'Iuvenalis et flammis'],')"} 
+            [:li [:a {:href "/cts/dll/Servius.Aeneid/1#match(//div[@n='1']//seg[@n='5'],'Iuvenalis et flammis')"} 
                  " A match that crosses element boundaries."]]
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1#string-range(//div[@n='1']//seg[@n='5'],167,20)"} 
                  " An equivalent string-range that crosses element boundaries."]]
