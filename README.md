@@ -1,6 +1,6 @@
 # tei-xpointer.js - TEI Pointer Library
 
-This repository contains an implementation of the [draft proposal](https://docs.google.com/document/d/1JsMA-gOGrevyY-crzHGiC7eZ8XdV5H_wFTlUGzrf20w/edit#) 
+This repository contains an implementation of the [draft proposal](https://github.com/hcayless/TEI_Pointers_Draft) 
 for new TEI XPointers. It utilizes code from jQuery, [Rangy](https://code.google.com/p/rangy/), and 
 [TEI Boilerplate](http://dcl.slis.indiana.edu/teibp/) to enable the display of unmodified XML documents in the 
 browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents. There is a
