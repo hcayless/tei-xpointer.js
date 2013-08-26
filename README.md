@@ -4,7 +4,8 @@ This repository contains an implementation of the [draft proposal](https://docs.
 for new TEI XPointers. It utilizes code from jQuery, [Rangy](https://code.google.com/p/rangy/), and 
 [TEI Boilerplate](http://dcl.slis.indiana.edu/teibp/) to enable the display of unmodified XML documents in the 
 browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents. There is a
-demo running at <http://tei.philomousos.com/>.
+demo running at <http://tei.philomousos.com/>. Note: the demo is a demo, there are certainly bugs, the webapp part may 
+be subject to falling over under any load at all, etc.
 
 ## Prerequisites
 
