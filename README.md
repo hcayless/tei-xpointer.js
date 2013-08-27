@@ -1,6 +1,11 @@
 # tei-xpointer.js - TEI Pointer Library
 
-This repository contains an implementation of the [https://docs.google.com/document/d/1JsMA-gOGrevyY-crzHGiC7eZ8XdV5H_wFTlUGzrf20w/edit#](draft proposal) for new TEI XPointers. It utilizes code from jQuery, [https://code.google.com/p/rangy/](Rangy), and [http://dcl.slis.indiana.edu/teibp/](TEI Boilerplate) to enable the display of unmodified XML documents in the browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents.
+This repository contains an implementation of the [draft proposal](https://github.com/hcayless/TEI_Pointers_Draft) 
+for new TEI XPointers. It utilizes code from jQuery, [Rangy](https://code.google.com/p/rangy/), and 
+[TEI Boilerplate](http://dcl.slis.indiana.edu/teibp/) to enable the display of unmodified XML documents in the 
+browser. The xpointer.js and annotate.js code handles the resolution of TEI Pointers within the documents. There is a
+demo running at <http://tei.philomousos.com/>. Note: the demo is a demo, there are certainly bugs, the webapp part may 
+be subject to falling over under any load at all, etc.
 
 ## Prerequisites
 
@@ -18,4 +23,4 @@ Go to http://localhost:3000 to see an example text. Any TEI P5 text on the web c
 
 ## License
 
-Copyright © 2013 Hugh Cayless. The use and distribution terms for this software are covered by the [http://opensource.org/licenses/eclipse-1.0.php](Eclipse Public License 1.0). By using this software in any fashion, you are agreeing to be bound by the terms of this license. You must not remove this notice, or any other, from this software.
+Copyright © 2013 Hugh Cayless. The use and distribution terms for this software are covered by the [Eclipse Public License 1.0](http://opensource.org/licenses/eclipse-1.0.php). By using this software in any fashion, you are agreeing to be bound by the terms of this license. You must not remove this notice, or any other, from this software.
