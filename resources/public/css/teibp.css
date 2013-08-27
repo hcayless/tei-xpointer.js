@@ -561,6 +561,15 @@ gap {
   /* GLS: Depending upon how we handle gap and lacuna, we may want to enclose in [] */
 
 }
+gap[reason='lost']:before {
+  content:'[';
+}
+gap[reason='lost']:after {
+  content: attr(data-content) ']';
+}
+gap[reason='illegible']:after {
+  content: attr(data-content);
+}
 gb {
   /* Empty Rule Set */
 }
@@ -1836,7 +1845,7 @@ a:hover {
   width: 30em;
 }
 #sidebar textarea {
-width: 30.5em;
+width: 330px;
 }
 #teibpToolbox h1 {
   font-weight: bold;

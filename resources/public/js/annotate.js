@@ -23,7 +23,14 @@ var Annotate = {
   findXPath: function(elt) {
     elt = jQuery(elt);
     if (elt[0].nodeType == Node.TEXT_NODE) {
-      //look first for preceding sibling line breaks in the same container with an @id or @n.
+      //There's an edge case where clicking on the beginning of a line in Webkit browsers doesn't get you the 
+      //position after the linebreak, but instead the end of the preceding line. If the
+      //elt text node is empty, and there is only whitespace between it and the next lb, then
+      //we are at the beginning of a line.
+      if (elt[0].nextSibling && elt[0].nextSibling.localName == 'lb' && /\s+/.test(elt[0].nodeValue)){
+        return Annotate.findXPath(elt[0].nextSibling);
+      }
+      //look next for preceding sibling line breaks in the same container with an @id or @n.
       var lb = document.evaluate("preceding::lb[1]",elt[0],null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
       lb = lb.singleNodeValue;
       if (lb != null) {
@@ -105,7 +112,24 @@ var Annotate = {
     var preceding = [];
     var anchorOffset = selection.anchorOffset;
     var children = jQuery(context).contents();
-    if (children.length == 0 )
+    if (children.length == 0) {
+      var anchor = selection.anchorNode;
+      var curr = context;
+      while(curr != anchor) {
+        curr = curr.nextSibling;
+        var desc = document.evaluate("descendant-or-self::node()",curr,null,XPathResult.ORDERED_NODE_ITERATOR_TYPE,null);
+        var item;
+        while (item = desc.iterateNext()) {
+          if (item.nodeType == Node.TEXT_NODE && item != anchor) {
+            preceding.push(item.valueOf().nodeValue);
+          } 
+          if (item == anchor) {
+            curr = anchor;
+            break;
+          }
+        }
+      }
+    }
     for (var i = 0; i < children.length; i++) {
       if (children[i] == selection.anchorNode || children[i] == selection.anchorNode.parentNode || children[i] == selection.anchorNode.parentNode.parentNode) break;
       preceding.push(children[i]);
@@ -115,17 +139,27 @@ var Annotate = {
       anchorOffset += text.length;
     }
     var focusOffset = selection.focusOffset;
-    preceding = []
-    for (var i = 0; i < children.length; i++) {
-      if (children[i] == selection.focusNode || children[i] == selection.focusNode.parentNode || children[i] == selection.focusNode.parentNode.parentNode) break;
-      preceding.push(children[i]);
-    }
-    for (var i = 0; i < preceding.length; i++) {
-      var text = jQuery(preceding[i]).text();
-      focusOffset += text.length;
+    if (selection.anchorNode != selection.focusNode) {
+      preceding = []
+      for (var i = 0; i < children.length; i++) {
+        if (children[i] == selection.focusNode || children[i] == selection.focusNode.parentNode || children[i] == selection.focusNode.parentNode.parentNode) break;
+        preceding.push(children[i]);
+      }
+      for (var i = 0; i < preceding.length; i++) {
+        var text = jQuery(preceding[i]).text();
+        focusOffset += text.length;
+      }
+    } else {
+      focusOffset = (focusOffset - selection.anchorOffset) + anchorOffset;
     }
     var pos = anchorOffset > focusOffset?focusOffset:anchorOffset;
-    var precedingText = jQuery(context).text().substring(0,pos);  //not going to work if our context is an lb
+    var precedingText;
+    if (children.length > 0) {
+      precedingText = jQuery(context).text().substring(0,pos);
+    } else {
+      precedingText = preceding.join("");
+      precedingText += selection.anchorNode.nodeValue.substring(0,pos);
+    }
     var re = new RegExp(lemma, 'g');
     var matches = precedingText.match(re);
     var xpointer = "match("+contextPath+",'" + lemma.replace(/\s+/g, '\\s+').replace(/'/g, "\\'") + "'";
@@ -141,7 +175,9 @@ var Annotate = {
     var anchor = selection.getRangeAt(0).startContainer
     var children = jQuery(context).contents();
     if (children.length == 0) { //we're at an <lb/> or other empty element
-      var found = false;
+      if (context == anchor.nextSibling) { // We've hit the edge case in webkit where the selection is at 0.
+        return "string-index("+contextPath+",0)";
+      }
       var curr = context;
       while(curr != anchor) {
         curr = curr.nextSibling;

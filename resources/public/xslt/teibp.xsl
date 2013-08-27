@@ -69,6 +69,7 @@
 				</div>
 			  <script type="text/javascript" src="/js/xpointer.js"/>
         <script type="text/javascript" src="/js/annotate.js"/>
+        <script type="text/javascript" src="/js/epidoc.js"/>
         <script type="text/javascript">
           jQuery(window).load(function() {
             if (window.location.hash) {
@@ -76,7 +77,8 @@
               var range = XPointer.select(p);
               jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
               Annotate.select(range);
-              jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
+              jQuery("#xpointer").text(window.location.hash.replace(/^#/,""));
+              jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + window.location.hash + "\">xpointer link&lt;/a>");
             }
           });
           jQuery(window).on("hashchange", function(e) {
@@ -84,16 +86,17 @@
             var range = XPointer.select(p);
             jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
             Annotate.select(range);
-            jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
+            jQuery("#xpointer").text(window.location.hash);
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + window.location.hash + "\">xpointer link&lt;/a>");
           });
           jQuery("text").mousedown(function(e) {
             Annotate.clear();
           });
           jQuery("text").mouseup(function(e) {
+            var xpointer = Annotate.xpointer();
             jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
             jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
-            Annotate.select(rangy.getSelection().getRangeAt(0));
+            Annotate.select(XPointer.select(XPointer.parsePointer(xpointer)));
           });
         </script>
 			</body>
