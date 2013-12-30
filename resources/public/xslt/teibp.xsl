@@ -39,8 +39,8 @@
 	<xsl:param name="customCSS" select="concat($filePrefix,'/css/custom.css')"/>
 	<xsl:param name="jqueryJS" select="concat($filePrefix,'/js/jquery/jquery-1.9.1.js')"/>
 	<xsl:param name="jqueryBlockUIJS" select="concat($filePrefix,'/js/jquery/plugins/jquery.blockUI.js')"/>
-  <xsl:param name="rangycore" select="concat($filePrefix, '/js/rangy/rangy-core.js')"/>
-  <xsl:param name="rangyCSS" select="concat($filePrefix, '/js/rangy/rangy-cssclassapplier.js')"/>
+  	<xsl:param name="rangycore" select="concat($filePrefix, '/js/rangy/rangy-core.js')"/>
+ 	<xsl:param name="rangyCSS" select="concat($filePrefix, '/js/rangy/rangy-cssclassapplier.js')"/>
 	<xsl:param name="teibpJS" select="concat($filePrefix,'/js/teibp.js')"/>
 	<xsl:param name="theme.default" select="concat($filePrefix,'/css/teibp.css')"/>
 	<xsl:param name="theme.sleepytime" select="concat($filePrefix,'/css/sleepy.css')"/>
@@ -61,16 +61,16 @@
 		<html>
 			<xsl:call-template name="htmlHead"/>
 			<body>
-				<xsl:if test="$includeToolbox = true()">
-					<xsl:call-template name="teibpToolbox"/>
-				</xsl:if>
 				<div id="tei_wrapper">
 					<xsl:apply-templates/>
 				</div>
-			  <script type="text/javascript" src="/js/xpointer.js"/>
-        <script type="text/javascript" src="/js/annotate.js"/>
-        <script type="text/javascript" src="/js/epidoc.js"/>
-        <script type="text/javascript">
+				<xsl:if test="$includeToolbox = true()">
+                                        <xsl:call-template name="teibpToolbox"/>
+                                </xsl:if>
+			  	<script type="text/javascript" src="/js/xpointer.js"/>
+        			<script type="text/javascript" src="/js/annotate.js"/>
+        			<script type="text/javascript" src="/js/epidoc.js"/>
+        			<script type="text/javascript">
           jQuery(window).load(function() {
             if (window.location.hash) {
               var p = XPointer.parsePointer(window.location.hash);
