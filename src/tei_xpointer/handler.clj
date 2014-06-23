@@ -14,6 +14,9 @@
   (GET "/proxy"
     [uri]
     (bp-uri-response uri))
+  (GET "/SEG/:document"
+    [document]
+    (bp-file-response document {:root "/srv/data/IDEs/SEG_20130821/xml-files"}))
   (GET "/cts/dll/:author.:work/:section" 
     [author work section] (bp-file-response (str author "_" work "." section ".1-13.xml") {:root "public"}))
   (GET "/cts/dll/:author.:work/:section/xml" 

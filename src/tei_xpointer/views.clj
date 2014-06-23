@@ -1,5 +1,6 @@
 (ns tei_xpointer.views
   (:require [clojure.java.io :as io]
+            [clojure.string :as st]
             [ring.util.response :as response])
   (:use [ring.util.time :only (format-date)]
         [hiccup core page])
@@ -64,12 +65,12 @@
         (cond (= (count args) 1)
                 (if @firstread
                   (let [c (.read in (first args) 0 (- (alength (first args)) (alength teibpxslarr)))
-                        chunk (String. (first args) 0 (- (alength (first args)) (alength teibpxslarr)) (Charset/forName "UTF-8"))]
+                        chunk (st/replace (String. (first args) 0 (- (alength (first args)) (alength teibpxslarr)) (Charset/forName "UTF-8")) #"<![^>]+>" "")]
                     (when (> (.indexOf chunk "?>") -1)
-                      (System/arraycopy (.getBytes (str (.substring chunk 0 (+ (.lastIndexOf chunk "?>") 2)) 
+                      (System/arraycopy (.getBytes (str (.substring chunk 0 (+ (.indexOf chunk "?>") 2)) 
                                                         teibpxsl
-                                                        (.substring chunk (+ (.lastIndexOf chunk "?>") 2))))
-                                        0 (first args) 0 (alength (first args)))
+                                                        (.substring chunk (+ (.indexOf chunk "?>") 2))))
+                                        0 (first args) 0 (alength (.getBytes chunk)))
                       (swap! firstread false?))
                     (alength (first args)))
                   (.read in (first args)))
@@ -78,9 +79,9 @@
                   (let [c (.read in (first args) (second args) (- last args (alength teibpxslarr) ))
                         chunk (String. (first args) 0 (- (alength (first args)) (alength teibpxslarr)) (Charset/forName "UTF-8"))]
                     (when (> (.indexOf chunk "?>") -1)
-                      (System/arraycopy (.getBytes (str (.substring chunk 0 (+ (.lastIndexOf chunk "?>") 2)) 
+                      (System/arraycopy (.getBytes (str (.substring chunk 0 (+ (.indexOf chunk "?>") 2)) 
                                                         teibpxsl
-                                                        (.substring chunk (+ (.lastIndexOf chunk "?>") 2))))
+                                                        (.substring chunk (+ (.indexOf chunk "?>") 2))))
                                         0 (first args) 0 (last args))
                       (swap! firstread false?))
                     c)
@@ -89,15 +90,13 @@
 (defn bp-file-response
   [path & [options]]
   (let [path (-> (str (:root options "") "/" path)
-                   (.replace "//" "/")
-                   (.replaceAll "^/" ""))]
-      (if-let [resource (io/resource path)]
-        (let [file (io/as-file resource)
-              in (bp-inputstream (FileInputStream. file))]
-              ;(println (.toString file))
-          (-> (response/response in)
-              (file-content-length file)
-              (file-last-modified file))))))
+                   (.replace "//" "/"))]
+      (prn path)
+      (let [file (io/as-file path)
+            in (bp-inputstream (FileInputStream. file))]
+        (-> (response/response in)
+            (file-content-length file)
+            (file-last-modified file)))))
 
 (defn bp-uri-response
   [uri]

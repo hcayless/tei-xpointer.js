@@ -237,6 +237,13 @@
 			<xsl:apply-templates select="@*|node()"/>
 		</xsl:element>
 	</xsl:template>
+	
+	<xsl:template match="TEI.2" priority="99">
+		<xsl:element name="{local-name()}">
+			<xsl:call-template name="addID"/>
+			<xsl:apply-templates select="@*|node()"/>
+		</xsl:element>
+	</xsl:template>
   
   <xsl:template match="tei:title">
     <title><xsl:value-of select="."/></title>
