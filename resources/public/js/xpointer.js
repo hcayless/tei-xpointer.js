@@ -1,53 +1,66 @@
+rangy.config.checkSelectionRanges = false;
+/**
+ *  The XPointer object contains methods for parsing TEI XPointers
+ **/
 var XPointer = {
   /* Takes a pointer string and attempts to resolve it in the current document.
-   * returns an array containing the function name, the context node, and any other function arguments
+   * returns an object containing the function name, the context node, and any other function arguments
    * parsed—so a regex is a RegExp, a number an integer, and so on.
    */
   parsePointer: function(pointer){
     //get pointer name
     var p = decodeURIComponent(pointer.replace(/^#/,''));
     var result = {fname:'',context:null,params:[]};
-    result.fname = p.match(/^([^()]+)\(/)[1];;
-    p = p.replace(result.fname,'').replace(/^\(/,'').replace(/\)$/,'');
-    p = XPointer.split(p); 
-    if (result.fname == "range") {
-      for (var i = 0; i < p.length; i++) {
-        if (p[i].trim().match(/^(left|right|string-index)/)) {
-          result.params.push(XPointer.parsePointer(p[i].trim()));
-        } else {
-          result.params.push(XPointer.getNode(p[i].trim()));
+    var matches = p.match(/^([^()]+)\(/);
+    if (matches != null) {
+      result.fname = matches[1];;
+      p = p.replace(result.fname,'').replace(/^\(/,'').replace(/\)$/,'');
+      p = XPointer.split(p); 
+      if (result.fname == "range") {
+        for (var i = 0; i < p.length; i++) {
+          if (/^(left|right|string-index)/.test(p[i].trim())) {
+            result.params.push(XPointer.parsePointer(p[i].trim()));
+          } else {
+            result.params.push(XPointer.getNode(p[i].trim()));
+          }
+        }
+        result.context = result.params.reduce(XPointer.findCommonAncestor); 
+      } else {
+        result.context = XPointer.getNode(p[0].trim());
+        switch (result.fname) {
+          case "match":
+            result.params.push(new RegExp(p[1].replace(/ /g,'\\s+').replace(/\?/g,'\\?').replace(/\*/g,'\\*').replace(/^'/,'').replace(/'$/,''), 'g'));
+            if (p[2]) {
+              result.params.push(parseInt(p[2].trim()));
+            } else {
+              result.params.push(1);
+            }
+            break;
+          case "string-index":
+            result.params.push(parseInt(p[1].trim()));
+            break
+          case "string-range":
+            result.params.push(parseInt(p[1].trim()));
+            result.params.push(parseInt(p[2].trim()));
+            break;
+          case "xpath":
+          case "left":
+          case "right":
+            break;
         }
       }
-      result.context = result.params.reduce(XPointer.findCommonAncestor); 
     } else {
-      result.context = XPointer.getNode(p[0].trim());
-      switch (result.fname) {
-        case "match":
-          result.params.push(new RegExp(p[1].replace(/ /g,'\\s+').replace(/\?/g,'\\?').replace(/\*/g,'\\*').replace(/^'/,'').replace(/'$/,''), 'g'));
-          if (p[2]) {
-            result.params.push(parseInt(p[2].trim()));
-          } else {
-            result.params.push(1);
-          }
-          break;
-        case "string-index":
-          result.params.push(parseInt(p[1].trim()));
-          break
-        case "string-range":
-          result.params.push(parseInt(p[1].trim()));
-          result.params.push(parseInt(p[2].trim()));
-          break;
-        case "xpath":
-        case "left":
-        case "right":
-          break;
-      }
+      result.fname = "xpath";
+      result.context = XPointer.getNode("id('" + p + "')");
     }
     return result;
   },
-  escapeRe: function(regex) {
-    
-  },
+  /*  split takes the contents of an XPointer expression (after the outer expression name
+   *  name and parentheses have been removed) and returns an array containing the components
+   *  of the expression content. 
+   *  e.g. //lb[@n='3'],'Foo'                     -> ["//lb[@n='3']","'Foo'"]
+   *       right(//lb[@n='3']),left(//lb[@n='4']) -> ["right(//lb[@n='3'])","left(//lb[@n='4'])"]
+   */
   split: function(exprs) {
     exprs = exprs.replace(/\\'/g, "&apos;");
     var i,s;
@@ -55,16 +68,7 @@ var XPointer = {
     var result = [];
     for (i=0,s=0; i < exprs.length; i++) {
       if (exprs.charAt(i) == '(') s++;
-      if (exprs.charAt(i) == ')') s--;
-      if (exprs.charAt(i) == "'") {
-        if (s == 0) {
-          s++;
-        } else {
-          s--;
-        }
-      } 
-      
-      
+      if (exprs.charAt(i) == ')') s--;      
       if (exprs.charAt(i) == ',' && s == 0) {
         result.push(exprs.substring(ref,i).replace(/&apos;/g, "'"));
         ref = i + 1;
@@ -75,13 +79,15 @@ var XPointer = {
     }
     return result;
   },
+  /*  findCommonAncestor takes two parsed XPointers and finds their nearest common ancestor node
+   */
   findCommonAncestor: function(node1,node2) {
     var n1 = node1.fname? node1.context: node1;
     var n2 = node2.fname? node2.context: node2;
     if (n1 == n2) return n1;
     var p1 = n1.parentElement;
+    if (p1 == n2) return p1;
     var p2 = n2;
-    if (p1 == p2) return p1;
     while (p1) {
       while (p2 = p2.parentElement) {
         if (p1 == p2) return p1;
@@ -97,7 +103,7 @@ var XPointer = {
       context = document;
     }
     var result;
-    if (xpath.match(/^\//) || xpath.match(/^id\(/)) { // it's actually an XPath, not an IDREF
+    if (/^\//.test(xpath) || /^id\(/.test(xpath)) { // starts with / or id(, so it's actually an XPath, not an IDREF
       var xpr = document.evaluate(xpath.replace(/@xml:id/g,"@id"),context,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null);
       result = xpr.singleNodeValue;
       if (!result) {
@@ -139,7 +145,7 @@ var XPointer = {
    * pointer param. Side effect warning: left() and right() pointers passed to select
    * may cause the insertion of a new text node in the document, and the modification
    * of the pointer parameters context var. */
-  select: function(pointer) {
+  resolve: function(pointer) {
     var range = rangy.createRange();
     switch(pointer.fname) {
       case "range":
@@ -234,7 +240,7 @@ var XPointer = {
   getLocation: function(contextNode, index, length){
     var result = [];
     var xpr;
-    if (contextNode.childNodes && contextNode.childNodes.length > 0){
+    if (contextNode.localName != "lb" && contextNode.childNodes && contextNode.childNodes.length > 0){
       xpr = document.evaluate(".//text()",contextNode,null,XPathResult.ORDERED_NODE_ITERATOR_TYPE,null);
       XPointer.locateNodes(xpr, index, length, result);
     }
@@ -266,10 +272,10 @@ var XPointer = {
    * and the offsets within them where the match is located. Returns an array like getLocation(). */
   getMatchLocation: function(contextNode, re, index){
     var text;
-    if (contextNode.childNodes.length == 0) {
+    if (contextNode.childNodes.length == 0 || contextNode.localName == "lb") {
       var following = [];
       var currNode = contextNode.nextSibling;
-      while (currNode.localName != "lb") {
+      while (currNode && following.length < 100) {
         following.push(jQuery(currNode).text());
         currNode = currNode.nextSibling;
       }

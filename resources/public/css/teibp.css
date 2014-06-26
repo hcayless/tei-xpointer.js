@@ -86,12 +86,27 @@ choice orig + reg:after,
 choice reg + orig:after {
   content: ")";
 }
+
+*[data-content-before]:before {
+  content: attr(data-content-before);
+}
+*[data-content][data-content-after]:after {
+  content: attr(data-content) attr(data-content-after);
+}
+*[data-content-after]:after {
+  content: attr(data-content-after);
+}
+*[data-content]:after {
+  content: attr(data-content);
+}
 /* A */
 ab {
   display: block;
-  margin-top: 1em;
-  margin-bottom: 1em;
 }
+abbr:after {
+  content: '()';
+}
+expan>abbr:after {}
 accMat {
   display: block;
 }
@@ -118,11 +133,17 @@ actor {
 }
 /* add */
 /* Could add other [place=] variations */
-add {
-  vertical-align: super;
+add[place=above]:before {
+  content: '\\';
 }
-add[place=below] {
-  vertical-align: sub;
+add[place=above]:after {
+  content: '/';
+}
+add[place=below]:before {
+  content: '/';
+}
+add[place=below]:after {
+  content: '\\';
 }
 addName {
   /* Empty Rule Set */
@@ -183,6 +204,18 @@ anchor {
 }
 app {
   display: block;
+}
+app:before {
+  content: attr(n)" ";
+  font-size: 90%;
+  font-weight: bold;
+  float:left;
+  margin-left: -5em;
+  position: relative;
+  top: -.1em;
+}
+app note {
+  display: inline;
 }
 appInfo {
   display: block;
@@ -372,6 +405,9 @@ border-top:2px solid @border-color;
 certainty {
   /* Empty Rule Set */
 }
+certainty[match=".."]:after {
+  content: '(?)';
+}
 change {
   /* Empty Rule Set */
 }
@@ -427,9 +463,9 @@ code {
   font-family: Courier,monospace;
 }
 /* jawalsh:
-For things like collation, condition, etc. that can have text or paragraphs as 
-children, we should use margins, when the content is text, and no margins when there 
-are child paragraphs (or other block elements). Otherwise we end up with double 
+For things like collation, condition, etc. that can have text or paragraphs as
+children, we should use margins, when the content is text, and no margins when there
+are child paragraphs (or other block elements). Otherwise we end up with double
 margins. */
 collation {
   display: block;
@@ -506,7 +542,7 @@ creation {
   /* Empty Rule Set */
 }
 /*jawalsh:
-Need to handle attributes for custEvent. All the att.datable* attributes will be tricky. 
+Need to handle attributes for custEvent. All the att.datable* attributes will be tricky.
 custodialHist and custEvent may normally be hidden along with other header metadata, but
 we'll have other datable elements that may be tricky. */
 custEvent {
@@ -520,6 +556,18 @@ custodialHist {
 /* d */
 date[when]:empty:before {
   content: attr(when);
+}
+del {
+  text-decoration: none;
+}
+del[rend=erasure]:before {
+  content: "⟦";
+}
+del[rend=erasure]:after {
+  content: "⟧";
+}
+del[rend=corrected]:before {
+  content: 'corr. ex ';
 }
 /* e */
 egXML {
@@ -543,6 +591,15 @@ epigraph {
   margin-top: 1em;
   margin-bottom: 1em;
 }
+ex:before {
+  content: '(';
+}
+ex:after {
+  content: ')';
+}
+ex[cert=low]:after {
+  content: '?)';
+}
 fileDesc > extent {
   display: none;
 }
@@ -557,18 +614,40 @@ figure {
 g {
   /* Empty Rule Set */
 }
-gap {
-  /* GLS: Depending upon how we handle gap and lacuna, we may want to enclose in [] */
-
+g[type]:after {
+  content: '((' attr(type) '))';
 }
-gap[reason='lost']:before {
-  content:'[';
+gap[reason=lost][unit=character]:before {
+  content: '[';
 }
-gap[reason='lost']:after {
+/*
+ * <gap reason="lost" quantity="?" unit="character"/>
+ */
+gap[reason=lost][unit=character][quantity]:after {
   content: attr(data-content) ']';
 }
-gap[reason='illegible']:after {
-  content: attr(data-content);
+/*
+ * <gap reason="lost" extent="unknown" unit="character"/>
+ */
+gap[reason=lost][unit=character][extent=unknown]:after {
+  content: ' - ca. ? - ]';
+}
+gap[reason=lost][unit=character][precision=low][quantity]:after {
+  content: ' - ca. ' attr(quantity) ' - ]';
+}
+gap[reason=lost][unit=character][atLeast][atMost]:after {
+  content: ' - ' attr(atLeast) '-' attr(atMost) ' - ]';
+}
+gap[reason=lost][unit=line][quantity]:before {
+  content: '\a[- ' attr(data-content);
+  white-space: pre;
+}
+gap[reason=lost][unit=line][quantity]:after {
+  content: ' -]';
+}
+gap[reason=lost][unit=line][extent=unknown]:before {
+  content: '\a -- -- -- -- -- -- -- ';
+  white-space: pre;
 }
 gb {
   /* Empty Rule Set */
@@ -667,6 +746,11 @@ div > div > div > div > div > head {
 div > div > div > div > div > div head {
   font-size: 110%;
 }
+div[type=textPart]:before {
+  content: attr(n);
+  font-weight: bold;
+  margin-left: -2em;
+}
 figure > head {
   display: block;
   margin: 1.5em auto 1.5em auto;
@@ -703,6 +787,12 @@ heraldry {
 }
 hi[rend="caps"] {
   font-weight:bold;
+}
+hi[rend=supraline] {
+  border-top: thin solid black;
+}
+hi[rend=diaeresis]:after {
+  content: '̈';
 }
 hi {
   /* GLS: do we want to bold this or change the background color? */
@@ -793,8 +883,6 @@ kinesic {
 /* l */
 l {
   display: block;
-  padding-left: 2em;
-  text-indent: -2em;
 }
 list[type="gloss"] > label {
   display: block;
@@ -829,12 +917,27 @@ layout {
 layoutDesc {
   /* Empty Rule Set */
 }
+lb[break=no]:before {
+  content: '-\a';
+  white-space: pre;
+}
+lb[data-n]:after {
+  content: attr(data-n);
+  float: left;
+  margin-left: -2em;
+}
 lb {
   /* Empty Rule Set */
 }
-lb:after {
+lb:before {
   content: '\a';
   white-space: pre;
+}
+listApp lb[break=no]:before {
+  content: '-';
+}
+listApp lb:after {
+  content: '|';
 }
 lbl {
   /* Empty Rule Set */
@@ -842,8 +945,13 @@ lbl {
 leaf {
   /* Empty Rule Set */
 }
-lem {
-  /* Empty Rule Set */
+app[type=inline] lem {
+}
+listApp lem {
+  color: gray;
+}
+listApp lem:after {
+  content: ':';
 }
 lg {
   display: block;
@@ -864,7 +972,7 @@ list {
 item > list {
   margin-top: 0;
 }
-/* Match only lists that are descendants of 
+/* Match only lists that are descendants of
 text. Otherwise they show up in the header. */
 text list[type=simple] {
   list-style-type: none;
@@ -892,6 +1000,16 @@ text list[type=gloss] {
 }
 item > list[type=ordered] {
   margin-left: 1em;
+}
+div[type=apparatus] listApp {
+  display: block;
+  margin: 1em;
+  padding: 1em;
+}
+div[type=apparatus] listApp:before {
+  content: 'Apparatus';
+  font-size: 140%;
+  margin-left: -3em;
 }
 localName {
   /* Empty Rule Set */
@@ -946,13 +1064,13 @@ metSym {
   /* Empty Rule Set */
 }
 milestone {
-  display: block;
+  display: none;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
 }
 milestone:before {
-  content: "* * * * *";
+  /*content: "* * * * *";*/
 }
 moduleRef {
   /* probably hide, not sure how we want to deal */
@@ -1018,24 +1136,11 @@ node {
 normalization {
   /* Empty Rule Set */
 }
-note {
-  display: block;
-  margin: 1.5em auto 1.5em auto;
-  padding: .5em 1.5em 1.5em 1.5em;
-  border: 1px solid black;
-  border-radius: 15px;
-  width: 325px;
-  position: relative;
-  border: 1px solid #aaaaaa;
-  background: #fafafa;
-  /* reset text-indent for note with <l> ancestors. */
-
-  text-indent: 0;
-  font-size: 85%;
-  text-align: justify;
-  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+note:before {
+  content: '(';
+}
+note:after {
+  content: ')';
 }
 notesStmt {
   /* do we want to box each individual <note> if they're in a <notesStmt>? */
@@ -1121,12 +1226,14 @@ pause {
   /* Empty Rule Set*/
 }
 pb {
+  /*
   display: block;
   width: 100%;
   text-align: right;
   color: gray;
   margin: 2em 0 2em 0;
   font-size: 11pt;
+  */
 }
 /*
 pb:before {
@@ -1243,10 +1350,10 @@ q {
   quotes: "\201c" "\201d" "\2018" "\2019" "\201c" "\201d" "\2018" "\2019" "\201c" "\201d" "\2018" "\2019" "\201c" "\201d";
 }
 q:before {
-  content: open-quote;
+  content: "";
 }
 q:after {
-  content: close-quote;
+  content: "";
 }
 q[next]:after {
   content: "" !important;
@@ -1278,8 +1385,11 @@ quote[prev]:before {
 }
 */
 /* r */
-rdg {
+app>rdg {
   /*perhaps choice */
+}
+rdg.hi:after {
+  content: ' papyrus';
 }
 rdgGrp {
   /* Empty Rule Set */
@@ -1302,6 +1412,10 @@ recordingStmt {
 }
 ref {
   /*include link if target */
+  border-bottom: thin dotted;
+}
+listApp reg:before {
+  content: 'l. ';
 }
 region {
   /* Empty Rule Set */
@@ -1369,9 +1483,9 @@ rs {
 }
 /*label*/
 /* s */
-/* When TEI document is embedded in HTML page, 
+/* When TEI document is embedded in HTML page,
    TEI's <s> element can be interpreted by
-   browser as HTML <s>, which results in 
+   browser as HTML <s>, which results in
    a strike-through from the "user agent"
    styles. */
 s {
@@ -1508,8 +1622,11 @@ space:before {
   font-weight: bold;
   content: "";
 }
+span[data-n]:before {
+  content: attr(data-n);
+}
 TEI span {
-  display: none;
+  display: inline;
 }
 TEI egXML span {
   display: inline;
@@ -1589,8 +1706,14 @@ summary {
 superEntry {
   /* Block with space above and below, maybe have no block and space for <entry> when contained by this element */
 }
-supplied {
-  /* not sure on this one, seems like we should indicate somehow. Is there a standard way to do this? */
+supplied[reason=omitted]:before {
+  content: '<';
+}
+supplied[reason=omitted]:after {
+  content: '>';
+}
+supplied[reason=undefined][evidence=parallel] {
+  text-decoration: underline;
 }
 support {
   /* Empty Set Rule */
@@ -1604,8 +1727,11 @@ surface {
 surname {
   /* Empty Set Rule */
 }
-surplus {
-  display: none;
+surplus:before {
+  content: '{';
+}
+surplus:after {
+  content: '}';
 }
 surrogates {
   /*Empty Rule Set */
@@ -1701,6 +1827,9 @@ typeDesc {
 /* u */
 u:before {
   content: "-";
+}
+unclear:after {
+  content: '̣';
 }
 unicodeName {
   /* Empty Rule Set */
@@ -1804,9 +1933,9 @@ html {
   margin-left: 2em;
   margin-right: 4em;
   padding: 2.5em;
-  font-family: Georgia, Serif;
+  font-family: "Lucida Grande", "Cardo", "Arial Unicode MS","Galilee Unicode Gk", "New Athena Unicode", "Athena Unicode", "Palatino Linotype", "Titus Cyberbit Basic", "Vusillus Old Face", "Alphabetum", "Galatia SIL", "Code 2000", "GentiumAlt", "Gentium", "Minion Pro", "GeorgiaGreek", "Vusillus Old Face Italic", "Everson Mono", "Aristarcoj", "Porson", "Legendum", "Aisa Unicode", "Hindsight Unicode", "Caslon", "Verdana", "Tahoma";
   font-size: 12pt;
-  background-color: #ebebeb;
+  background-color: white;
   color: #292929;
   width: 33em;
 }
@@ -1883,4 +2012,21 @@ width: 330px;
 .head-font {
   font-family: Arvo, sans-serif;
   font-weight: normal;
+}
+
+/* Annotations */
+div.ann-widget {
+  position: absolute;
+  top: 200px;
+  right: 200px;
+  border: thin solid gray;
+  padding: 0.5em;
+}
+div.ann-widget h3 {
+  margin: 0;
+}
+span.close-widget {
+  cursor: pointer;
+  font-size: 70%;
+  float:right;
 }

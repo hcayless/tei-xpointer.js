@@ -40,9 +40,24 @@
             [:li [:a {:href "/cts/dll/Servius.Aeneid/1#right(//div[@n='2']//seg[@n='1']/hi)"} 
                  " Insertion to the right of the first &lt;hi> element in line 2."]]]]]))
 
+(defn- get-chunk
+  [b len]
+  (st/replace 
+    (String. b 0 len (Charset/forName "UTF-8")) 
+      #"^([^\r\n]+(\r|\n)+)(<(!|\?)[^>]+>(\r|\n)*)+" "$1"))
+
+(defn- get-length-offset
+  [file]
+  (let [in (bp-inputstream (FileInputStream. file))
+        b (byte-array 1024)]
+    (let [result (.read in b)]
+      (.close in)
+      (prn (- 1024 result))
+      (- 1024 result))))
+
 (defn- file-content-length
-  [resp file]
-  (response/header resp "Content-Length" (+ (.length file) (alength teibpxslarr))))
+  [resp file offset]
+  (response/header resp "Content-Length" (+ (- (.length file) offset) (alength teibpxslarr))))
   
 (defn- file-last-modified
   [resp file]
@@ -65,14 +80,18 @@
         (cond (= (count args) 1)
                 (if @firstread
                   (let [c (.read in (first args) 0 (- (alength (first args)) (alength teibpxslarr)))
-                        chunk (st/replace (String. (first args) 0 (- (alength (first args)) (alength teibpxslarr)) (Charset/forName "UTF-8")) #"<![^>]+>" "")]
+                        chunk (get-chunk (first args) (- (alength (first args)) (alength teibpxslarr)))]
                     (when (> (.indexOf chunk "?>") -1)
+                      (prn (String. (first args)))
+                      (prn (alength (first args)))
+                      (prn chunk)
+                      (prn (alength (.getBytes chunk)))
                       (System/arraycopy (.getBytes (str (.substring chunk 0 (+ (.indexOf chunk "?>") 2)) 
                                                         teibpxsl
                                                         (.substring chunk (+ (.indexOf chunk "?>") 2))))
-                                        0 (first args) 0 (alength (.getBytes chunk)))
+                                        0 (first args) 0 (+ (alength (.getBytes chunk)) (alength teibpxslarr)))
                       (swap! firstread false?))
-                    (alength (first args)))
+                    (+ (alength (.getBytes chunk)) (alength teibpxslarr)))
                   (.read in (first args)))
               (= (count args) 3)
                 (if @firstread
@@ -91,11 +110,11 @@
   [path & [options]]
   (let [path (-> (str (:root options "") "/" path)
                    (.replace "//" "/"))]
-      (prn path)
       (let [file (io/as-file path)
-            in (bp-inputstream (FileInputStream. file))]
+            in (bp-inputstream (BufferedInputStream. (FileInputStream. file)))
+            offset (get-length-offset file)]
         (-> (response/response in)
-            (file-content-length file)
+            (file-content-length file offset)
             (file-last-modified file)))))
 
 (defn bp-uri-response
@@ -106,6 +125,6 @@
           tmp (File/createTempFile (DigestUtils/sha1Hex (.toString resource)) ".xml")]
           (io/copy in tmp)
       (-> (response/response (bp-inputstream (FileInputStream. tmp)))
-          (file-content-length tmp)
+          (file-content-length tmp 0)
           (file-last-modified tmp)))))
 

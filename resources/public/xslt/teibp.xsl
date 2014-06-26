@@ -68,7 +68,7 @@
                                         <xsl:call-template name="teibpToolbox"/>
                                 </xsl:if>
 			  	<script type="text/javascript" src="/js/xpointer.js"/>
-        			<script type="text/javascript" src="/js/annotate.js"/>
+        			<script type="text/javascript" src="/js/generator.js"/>
         			<script type="text/javascript" src="/js/epidoc.js"/>
         			<script type="text/javascript">
           jQuery(window).load(function() {
@@ -76,7 +76,7 @@
               var p = XPointer.parsePointer(window.location.hash);
               var range = XPointer.select(p);
               jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
-              Annotate.select(range);
+              Generator.select(range);
               jQuery("#xpointer").text(window.location.hash.replace(/^#/,""));
               jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + window.location.hash + "\">xpointer link&lt;/a>");
             }
@@ -85,18 +85,18 @@
             var p = XPointer.parsePointer(window.location.hash);
             var range = XPointer.select(p);
             jQuery("html,body").scrollTop(jQuery(p.context).offset().top - 10);
-            Annotate.select(range);
+            Generator.select(range);
             jQuery("#xpointer").text(window.location.hash);
             jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + window.location.hash + "\">xpointer link&lt;/a>");
           });
           jQuery("text").mousedown(function(e) {
-            Annotate.clear();
+          	Generator.clear();
           });
           jQuery("text").mouseup(function(e) {
-            var xpointer = Annotate.xpointer();
-            jQuery("#xpointer").text(Annotate.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
-            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Annotate.xpointer() + "\">xpointer link&lt;/a>");
-            Annotate.select(XPointer.select(XPointer.parsePointer(xpointer)));
+         	var xpointer = Generator.xpointer();
+         	jQuery("#xpointer").text(Generator.xpointer().replace(/(,|\/+|\+)/g,"$1&#x200b;"));
+            jQuery("p#xpointerlink").html("&lt;a href=\"" + window.location.href.replace(/#.*$/,"") + "#" + Generator.xpointer() + "\">xpointer link&lt;/a>");
+            Generator.select(XPointer.select(XPointer.parsePointer(xpointer)));
           });
         </script>
 			</body>
@@ -127,6 +127,7 @@
 	<xsl:template match="*"> 
 		<xsl:element name="{local-name()}">
 			<xsl:call-template name="addID"/>
+			<xsl:attribute name="data-teiform"><xsl:value-of select="local-name()"/></xsl:attribute>
 			<xsl:apply-templates select="@*|node()"/>
 		</xsl:element>
 	</xsl:template>
@@ -239,15 +240,23 @@
 	</xsl:template>
 	
 	<xsl:template match="TEI.2" priority="99">
-		<xsl:element name="{local-name()}">
+		<TEI>
 			<xsl:call-template name="addID"/>
 			<xsl:apply-templates select="@*|node()"/>
-		</xsl:element>
+		</TEI>
+	</xsl:template>
+	
+	<xsl:template match="link">
+		<span data-teiform="link"><xsl:apply-templates select="node()|@*"/></span>
 	</xsl:template>
   
   <xsl:template match="tei:title">
     <title><xsl:value-of select="."/></title>
   </xsl:template>
+	
+	<xsl:template match="title">
+		<h1 class="title" data-teiform="title"><xsl:apply-templates select="node()|@*"/></h1>
+	</xsl:template>
 	
 	<xsl:template name="addID">
 		<xsl:if test="not(@xml:id) and not(ancestor::eg:egXML)">
@@ -311,7 +320,7 @@
 			
 			<script type="text/javascript">
 				$(document).ready(function() {
-					$("html > head > title").text($("TEI > teiHeader > fileDesc > titleStmt > title:first").text());
+					$("html > head > title").text($("TEI.2 > teiHeader > fileDesc > titleStmt > title:first").text());
 					$.unblockUI();				
 				});
 			</script>
