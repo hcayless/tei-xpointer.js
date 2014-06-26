@@ -844,6 +844,12 @@ incipit {
 index {
   /* Empty Rule Set */
 }
+indexTerm[index="volume"] {
+  content: attr(level1) '-';
+}
+indexTerm[index="segnum"] {
+  content: attr(level1);
+}
 institution {
   /* Empty Rule Set */
 }
